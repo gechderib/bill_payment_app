@@ -41,8 +41,11 @@ class MainScreen extends StatelessWidget {
                   width: 56,
                   height: 56,
                   decoration: BoxDecoration(
-                      color: const Color(0XFFF07AAC),
-                      borderRadius: BorderRadius.circular(36)),
+                    gradient: const LinearGradient(
+                      colors: [Colors.blue, Colors.green],
+                    ),
+                    borderRadius: BorderRadius.circular(36),
+                  ),
                   child: IconButton(
                     color: Colors.white,
                     icon: const Icon(Icons.add),
@@ -59,7 +62,7 @@ class MainScreen extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
         shape: const CircularNotchedRectangle(),
-        color: Colors.blue,
+        color: Color.fromARGB(255, 45, 159, 204),
         child: Container(
           height: 56,
           child: Row(
