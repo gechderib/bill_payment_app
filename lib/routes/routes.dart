@@ -1,5 +1,4 @@
 import 'package:billpayment/screens/forgot_password_screen.dart';
-import 'package:billpayment/screens/home_screen.dart';
 import 'package:billpayment/screens/login_screen.dart';
 import 'package:billpayment/screens/main_screen.dart';
 import 'package:billpayment/screens/registration_screen.dart';

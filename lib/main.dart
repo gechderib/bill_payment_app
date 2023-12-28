@@ -1,6 +1,5 @@
 import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/routes/routes.dart';
-import 'package:billpayment/screens/splash_screen.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
