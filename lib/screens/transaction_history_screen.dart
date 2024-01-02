@@ -1,5 +1,7 @@
 import 'package:billpayment/custom_widgets/payment_history_cards.dart';
+import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
   TransactionHistoryScreen({super.key});
@@ -24,6 +26,7 @@ class TransactionHistoryScreen extends StatelessWidget {
   ];
   @override
   Widget build(BuildContext context) {
+    final uiProvider = Provider.of<UiServiceProvider>(context);
     return Scaffold(
       body: Column(
         children: [
@@ -96,7 +99,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                   billAmount: 455,
                   billName: transaction,
                   dueDate: "May 23 2023",
-                  onClick: () => {},
+                  onClick: () => {uiProvider.changeIndex(5)},
                   status: Icons.check,
                 );
               },
