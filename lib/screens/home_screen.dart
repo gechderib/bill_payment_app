@@ -3,13 +3,16 @@ import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
 import 'package:billpayment/custom_widgets/payment_history_cards.dart';
 import 'package:billpayment/custom_widgets/upcoming_bill.dart';
+import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final uiProvider = Provider.of<UiServiceProvider>(context);
 
     return Scaffold(
       drawer: const BillPaymentDrawer(),
@@ -108,7 +111,9 @@ class HomeScreen extends StatelessWidget {
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return UpcomingBill(
-                          onClick: () => {_showPaymentDialog(context)},
+                          onClick: () => {
+                            _showPaymentDialog(context),
+                          },
                           billAmount: 3000,
                           billName: "Electric",
                           dueDate: "Sept 13 2024",
@@ -136,7 +141,7 @@ class HomeScreen extends StatelessWidget {
                       itemCount: 15,
                       itemBuilder: (context, index) {
                         return PaymentHistoryListTile(
-                          onClick: () => {},
+                          onClick: () => {uiProvider.changeIndex(5)},
                           billAmount: 3000,
                           billName: "Electric",
                           dueDate: "Sept 13 2024",

@@ -1,6 +1,7 @@
 import 'package:billpayment/constants/const.dart';
 import 'package:billpayment/custom_widgets/custom_bottom_menu.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
+import 'package:billpayment/screens/bill_detail_screen.dart';
 import 'package:billpayment/screens/home_screen.dart';
 import 'package:billpayment/screens/payment_screen.dart';
 import 'package:billpayment/screens/profile_screen.dart';
@@ -22,6 +23,7 @@ class MainScreen extends StatelessWidget {
       PaymentScreen(),
       SettingScreen(),
       ProfileScreen(),
+      BillDetailScreen(),
     ];
     return Scaffold(
       drawer: BillPaymentDrawer(),
