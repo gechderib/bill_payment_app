@@ -47,123 +47,125 @@ class RegistrationScreen extends StatelessWidget {
       }
     }
 
-    return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          alignment: Alignment.center,
-          width: size.width,
-          height: size.height,
+    return SafeArea(
+      child: Scaffold(
+        body: SingleChildScrollView(
           child: Container(
-            // decoration: appBackgroundDecoration,
-            padding: const EdgeInsets.only(top: 40),
-            child: Column(
-              children: [
-                Container(
-                  margin: const EdgeInsets.only(left: 24, right: 24),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Label(label: "Full Name"),
-                      CustomTextInputField(
-                        onValueChnage: (value) {
-                          authInfo.fullName = value;
-                        },
-                        hint: "Enter full name",
-                        decoration: textFormFieldDecoration,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Label(label: "Email"),
-                      CustomTextInputField(
-                        onValueChnage: (value) {
-                          authInfo.email = value;
-                        },
-                        hint: "Enter email address",
-                        decoration: textFormFieldDecoration,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Label(label: "Phone number"),
-                      CustomTextInputField(
-                        onValueChnage: (value) {
-                          authInfo.phone = value;
-                        },
-                        hint: "Enter phone",
-                        decoration: textFormFieldDecoration,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      const Label(label: "Password"),
-                      CustomPasswordInputField(
+            alignment: Alignment.center,
+            width: size.width,
+            height: size.height,
+            child: Container(
+              // decoration: appBackgroundDecoration,
+              padding: const EdgeInsets.only(top: 40),
+              child: Column(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(left: 24, right: 24),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Label(label: "Full Name"),
+                        CustomTextInputField(
                           onValueChnage: (value) {
-                            authInfo.password = value;
+                            authInfo.fullName = value;
                           },
-                          hint: "Enter password",
-                          decoration: passwordFormFieldDecoration),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const Label(label: "Confirm Password"),
-                      CustomPasswordInputField(
+                          hint: "Enter full name",
+                          decoration: textFormFieldDecoration,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Label(label: "Email"),
+                        CustomTextInputField(
                           onValueChnage: (value) {
-                            authInfo.password = value;
+                            authInfo.email = value;
                           },
-                          hint: "Confirm password",
-                          decoration: passwordFormFieldDecoration),
-                      const SizedBox(
-                        height: 15,
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      CustomButton(
-                        onPress: () => handelRegister(),
-                        horizontalMargin: 0,
-                        verticalMargin: 0,
-                        btnName: Consumer<UiServiceProvider>(
-                          builder: (context, uiProvider, _) {
-                            return uiProvider.isLoging
-                                ? const CircularProgressIndicator(
-                                    color: Colors.white,
-                                  )
-                                : Text("signup".tr(), style: textStyle);
+                          hint: "Enter email address",
+                          decoration: textFormFieldDecoration,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        const Label(label: "Phone number"),
+                        CustomTextInputField(
+                          onValueChnage: (value) {
+                            authInfo.phone = value;
                           },
+                          hint: "Enter phone",
+                          decoration: textFormFieldDecoration,
                         ),
-                      ),
-                      Container(
-                        height: 35,
-                        margin: const EdgeInsets.only(
-                          bottom: 10,
+                        const SizedBox(
+                          height: 10,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            const Text(
-                              "Already have an account?.",
-                              style: TextStyle(
-                                  color: Color(0xFF1E3354), fontSize: 16),
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(RouteGenerator.loginScreen);
-                              },
-                              child: Text(
-                                "login".tr(),
+                        const Label(label: "Password"),
+                        CustomPasswordInputField(
+                            onValueChnage: (value) {
+                              authInfo.password = value;
+                            },
+                            hint: "Enter password",
+                            decoration: passwordFormFieldDecoration),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const Label(label: "Confirm Password"),
+                        CustomPasswordInputField(
+                            onValueChnage: (value) {
+                              authInfo.password = value;
+                            },
+                            hint: "Confirm password",
+                            decoration: passwordFormFieldDecoration),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        const SizedBox(
+                          height: 10,
+                        ),
+                        CustomButton(
+                          onPress: () => handelRegister(),
+                          horizontalMargin: 0,
+                          verticalMargin: 0,
+                          btnName: Consumer<UiServiceProvider>(
+                            builder: (context, uiProvider, _) {
+                              return uiProvider.isLoging
+                                  ? const CircularProgressIndicator(
+                                      color: Colors.white,
+                                    )
+                                  : Text("signup".tr(), style: textStyle);
+                            },
+                          ),
+                        ),
+                        Container(
+                          height: 35,
+                          margin: const EdgeInsets.only(
+                            bottom: 10,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: [
+                              const Text(
+                                "Already have an account?.",
                                 style: TextStyle(
-                                    fontSize: 16, color: Color(0XFF6286CB)),
+                                    color: Color(0xFF1E3354), fontSize: 16),
                               ),
-                            )
-                          ],
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed(RouteGenerator.loginScreen);
+                                },
+                                child: Text(
+                                  "login".tr(),
+                                  style: TextStyle(
+                                      fontSize: 16, color: Color(0XFF6286CB)),
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ], // isLoging
-                  ),
-                )
-              ],
+                      ], // isLoging
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

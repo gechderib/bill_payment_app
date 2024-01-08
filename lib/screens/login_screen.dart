@@ -31,16 +31,15 @@ class LoginScreen extends StatelessWidget {
     void handelLogin() async {
       try {
         uiProvider.changeIsLoging(true);
-        // var phoneNumAuth =
-        //     await firebaseAuthProvider.verifyPhoneNumber(authInfo.phone);
         var user = await authProvider.loginUser(
           LoginModel.fromJson(loginUserInfo),
         );
         if (user != null) {
-          await authInfo.addloginUserInfo(user);
-          await authInfo.getLoginUser();
+          authInfo.user = user;
+          var phoneNumAuth =
+              await firebaseAuthProvider.verifyPhoneNumber(authInfo.phone);
           uiProvider.changeIndex(0);
-          Navigator.of(context).pushNamed(RouteGenerator.homeScreen);
+          Navigator.of(context).pushNamed(RouteGenerator.verify);
         } else {
           print('User login failed.');
         }

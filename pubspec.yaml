@@ -49,6 +49,7 @@ dependencies:
   open_file: ^3.3.2
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
+  flare_flutter: ^3.0.2
 
 dev_dependencies:
   flutter_test:

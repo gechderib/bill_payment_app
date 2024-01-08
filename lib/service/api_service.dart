@@ -57,9 +57,12 @@ class AuthProvider extends ChangeNotifier {
           Uri.parse(
               "$BASE_URL/users?phone=${loginInfo.phone}&password=${loginInfo.password}"),
           headers: header);
-
+      print(loginInfo.phone);
+      print(loginInfo.password);
       if (response.statusCode == 200) {
         final List<dynamic> users = json.decode(response.body);
+        print(users);
+        print("------------------------");
         if (users.isNotEmpty) {
           await uiProvider.showToast(
               "Login successful", Colors.green, Colors.white);
@@ -120,6 +123,7 @@ class AuthProvider extends ChangeNotifier {
       await uiProvider.showToast(
           "Please check your data", Colors.red, Colors.white);
     }
+    print(e);
     throw Exception('Failed to auth user');
   }
 }

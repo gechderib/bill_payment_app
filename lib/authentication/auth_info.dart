@@ -10,6 +10,8 @@ class AuthInfo extends ChangeNotifier {
   String fullName = "";
   String email = "";
 
+  UserModel user = UserModel(phone: "", password: "");
+
   Map<String, dynamic> logedUserInfo = {};
   Map<String, dynamic> registerUserInfo = {};
 

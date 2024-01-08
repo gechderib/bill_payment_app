@@ -1,5 +1,8 @@
 import 'package:billpayment/constants/styles/decoration.dart';
+import 'package:billpayment/custom_widgets/custom_button.dart';
+import 'package:billpayment/custom_widgets/input_field.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -9,7 +12,6 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  TextEditingController emailController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -21,34 +23,69 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text(
-                'Enter your email address to reset your password.',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              const SizedBox(height: 20.0),
-              TextField(
-                controller: emailController,
-                keyboardType: TextInputType.emailAddress,
-                decoration: const InputDecoration(
-                  labelText: 'Email Address',
-                  hintText: 'Enter your email',
-                ),
-              ),
-              TextField(
-                controller: phoneNumberController,
-                keyboardType: TextInputType.phone,
-                decoration: const InputDecoration(
-                  labelText: 'Phone Number',
-                  hintText: 'Enter your phone number',
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 0),
+                child: const Text(
+                  'Enter your phone number to reset your password.',
+                  style: TextStyle(fontSize: 16.0),
                 ),
               ),
               const SizedBox(height: 20.0),
-              ElevatedButton(
-                onPressed: () {
-                  // Implement logic to send password reset email
+              Container(
+                margin: const EdgeInsets.symmetric(horizontal: 10),
+                child: CustomTextInputField(
+                  onValueChnage: (value) {},
+                  hint: "Phone number",
+                  decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.only(
+                      left: 16,
+                      top: 5,
+                    ),
+                    labelText: "Phone number",
+                    enabledBorder: const OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromRGBO(62, 62, 62, 1)),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                    focusedErrorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                    errorBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.red),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                    focusedBorder: const OutlineInputBorder(
+                      borderSide: BorderSide(
+                          style: BorderStyle.solid,
+                          width: 0.7,
+                          color: Color.fromRGBO(62, 62, 62, 1)),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                    hintStyle: GoogleFonts.lato(
+                        textStyle: const TextStyle(fontSize: 13)),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 20.0),
+              CustomButton(
+                horizontalMargin: 0,
+                verticalMargin: 0,
+                btnName: const Text(
+                  "Reset Password",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPress: () {
                   _sendPasswordResetEmail();
                 },
-                child: const Text('Reset Password'),
               ),
             ],
           ),
@@ -58,12 +95,8 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   }
 
   void _sendPasswordResetEmail() {
-    // Implement logic to send a password reset email
-    String email = emailController.text;
+    String phone = phoneNumberController.text;
 
-    // Placeholder logic - print email to the console
-    print('Password reset email sent to: $email');
-
-    // You should implement actual logic to send the reset email using your authentication provider
+    print('Password reset phone sent to: $phone');
   }
 }

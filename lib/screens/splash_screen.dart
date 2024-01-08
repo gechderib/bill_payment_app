@@ -47,10 +47,6 @@ class SplashScreen extends StatelessWidget {
         ),
       );
     } else {
-      // Navigator.pushReplacement(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => LoginScreen()),
-      // );
       return LoginScreen();
     }
   }
