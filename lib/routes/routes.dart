@@ -1,22 +1,30 @@
+import 'package:billpayment/screens/forgot_password_screen.dart';
+import 'package:billpayment/screens/home_screen.dart';
 import 'package:billpayment/screens/login_screen.dart';
+import 'package:billpayment/screens/main_screen.dart';
 import 'package:billpayment/screens/registration_screen.dart';
 import 'package:billpayment/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class RouteGenerator {
-  static const String splash_screen = "/";
-  static const String login_screen = "/login";
-  static const String signup_screen = "/signup";
-  static const String forgotPassword = "/login";
+  static const String splashScreen = "/";
+  static const String loginScreen = "/login";
+  static const String signupScreen = "/signup";
+  static const String homeScreen = "/home";
+  static const String forgotPassword = "/forgot_password";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
-      case splash_screen:
+      case splashScreen:
         return MaterialPageRoute(builder: (_) => SplashScreen());
-      case login_screen:
+      case loginScreen:
         return MaterialPageRoute(builder: (_) => LoginScreen());
-      case signup_screen:
+      case signupScreen:
         return MaterialPageRoute(builder: (_) => RegistrationScreen());
+      case forgotPassword:
+        return MaterialPageRoute(builder: (_) => ForgotPasswordScreen());
+      case homeScreen:
+        return MaterialPageRoute(builder: (_) => MainScreen());
 
       default:
         return MaterialPageRoute(

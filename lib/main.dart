@@ -1,3 +1,4 @@
+import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/routes/routes.dart';
 import 'package:billpayment/screens/splash_screen.dart';
 import 'package:billpayment/service/ui_service.dart';
@@ -8,7 +9,7 @@ void main() {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => UiServiceProvider()),
-      ChangeNotifierProvider(create: (context) => SplashScreenState())
+      ChangeNotifierProvider(create: (context) => AuthInfo())
     ],
     child: const BillPaymentApp(),
   ));
@@ -23,7 +24,7 @@ class BillPaymentApp extends StatelessWidget {
     return MaterialApp(
       title: 'Payment App',
       debugShowCheckedModeBanner: false,
-      initialRoute: RouteGenerator.splash_screen,
+      initialRoute: RouteGenerator.splashScreen,
       onGenerateRoute: RouteGenerator.generateRoute,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),

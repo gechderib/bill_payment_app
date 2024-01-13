@@ -8,7 +8,6 @@ class CustomTextInputField extends StatelessWidget {
       {super.key,
       required this.onValueChnage,
       required this.hint,
-      required this.valueControler,
       this.textInputType,
       this.onValidate,
       required this.decoration});
@@ -17,7 +16,6 @@ class CustomTextInputField extends StatelessWidget {
   final Function(String) onValueChnage;
   final Function(String)? onValidate;
   final TextInputType? textInputType;
-  final TextEditingController valueControler;
   final InputDecoration decoration;
 
   @override
@@ -43,12 +41,10 @@ class CustomPasswordInputField extends StatelessWidget {
       {Key? key,
       required this.onValueChnage,
       required this.hint,
-      required this.valueController,
       required this.decoration})
       : super(key: key);
   final String hint;
   final Function(String) onValueChnage;
-  final TextEditingController valueController;
   final InputDecoration decoration;
 
   @override

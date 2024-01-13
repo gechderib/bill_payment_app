@@ -10,7 +10,7 @@ class SplashScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final splashScreenState = Provider.of<SplashScreenState>(context);
+    final splashScreenState = Provider.of<UiServiceProvider>(context);
     final size = MediaQuery.of(context).size;
 
     splashScreenState.loadContent(context);
@@ -18,7 +18,7 @@ class SplashScreen extends StatelessWidget {
       return Scaffold(
         body: GestureDetector(
           onTap: () {
-            Navigator.of(context).pushNamed(RouteGenerator.login_screen);
+            Navigator.of(context).pushNamed(RouteGenerator.loginScreen);
           },
           child: Container(
             height: size.height,
