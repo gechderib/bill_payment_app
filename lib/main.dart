@@ -1,5 +1,4 @@
-import 'dart:js';
-
+import 'package:billpayment/routes/routes.dart';
 import 'package:billpayment/screens/splash_screen.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +21,14 @@ class BillPaymentApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Payment App',
+      debugShowCheckedModeBanner: false,
+      initialRoute: RouteGenerator.splash_screen,
+      onGenerateRoute: RouteGenerator.generateRoute,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const SplashScreen(),
     );
   }
 }
