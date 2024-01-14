@@ -1,9 +1,9 @@
 import 'package:billpayment/constants/const.dart';
 import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
+import 'package:billpayment/custom_widgets/payment_history_cards.dart';
 import 'package:billpayment/custom_widgets/upcoming_bill.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -88,6 +88,20 @@ class HomeScreen extends StatelessWidget {
                       dueDate: "14 Sept 2024",
                     ),
                   ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Pending Bills",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(221, 34, 34, 34),
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     flex: 3,
                     child: ListView.builder(
@@ -102,11 +116,34 @@ class HomeScreen extends StatelessWidget {
                       },
                     ),
                   ),
+                  Container(
+                    margin: const EdgeInsets.only(left: 10),
+                    child: const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Payment History",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: Color.fromARGB(221, 34, 34, 34),
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     flex: 4,
-                    child: Container(
-                        decoration: BoxDecoration(color: Colors.blue),
-                        child: Text("Overview of payment history ")),
+                    child: ListView.builder(
+                      itemCount: 15,
+                      itemBuilder: (context, index) {
+                        return PaymentHistoryListTile(
+                          onClick: () => {},
+                          billAmount: 3000,
+                          billName: "Electric",
+                          dueDate: "Sept 13 2024",
+                          status: Icons.check,
+                        );
+                      },
+                    ),
                   ),
                 ],
               ),
@@ -117,11 +154,3 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
-
-
-          // UpcomingBill(
-          //                 onClick: () => {},
-          //                 billAmount: 3000,
-          //                 billName: "Electric",
-          //                 dueDate: "Sept 13 2024",
-          //               ),

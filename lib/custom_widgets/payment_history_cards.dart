@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 
-class UpcomingBill extends StatelessWidget {
-  const UpcomingBill(
+class PaymentHistoryListTile extends StatelessWidget {
+  const PaymentHistoryListTile(
       {super.key,
       required this.onClick,
       required this.billAmount,
       required this.billName,
-      required this.dueDate});
+      required this.dueDate,
+      required this.status});
   final Function onClick;
   final String billName;
   final double billAmount;
   final String dueDate;
+  final IconData status;
 
   @override
   Widget build(BuildContext context) {
@@ -32,16 +34,16 @@ class UpcomingBill extends StatelessWidget {
                 ],
               ),
               borderRadius: BorderRadiusDirectional.only(
-                topStart: Radius.circular(20),
-                bottomEnd: Radius.circular(20),
+                topStart: Radius.circular(15),
+                bottomEnd: Radius.circular(15),
               ),
             ),
             child: ListTile(
               onTap: () => onClick(),
               contentPadding:
                   const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
-              leading: Text(
-                billName,
+              leading: Icon(
+                status,
               ),
               title: Text(
                 "ETB. $billAmount",
@@ -49,12 +51,8 @@ class UpcomingBill extends StatelessWidget {
               subtitle: Text(
                 dueDate,
               ),
-              trailing: ElevatedButton(
-                onPressed: () => {onClick()},
-                child: const Text(
-                  "Pay",
-                  style: TextStyle(color: Colors.blue),
-                ),
+              trailing: Text(
+                "For $billName",
               ),
             ),
           ),
