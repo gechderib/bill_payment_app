@@ -1,6 +1,9 @@
 import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
+import 'package:billpayment/custom_widgets/upcoming_bill.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -9,7 +12,7 @@ class HomeScreen extends StatelessWidget {
     final size = MediaQuery.of(context).size;
 
     return Scaffold(
-      drawer: BillPaymentDrawer(),
+      drawer: const BillPaymentDrawer(),
       body: Container(
         child: Column(
           children: [
@@ -77,20 +80,30 @@ class HomeScreen extends StatelessWidget {
               height: size.height - (APP_BAR_HEIGHT + BOTTOM_SHEET_HEIGHT),
               child: Column(
                 children: [
-                  Expanded(
-                    flex: 1,
-                    child: Container(
-                        decoration: BoxDecoration(color: Colors.blue),
-                        child: Text("Overview of bill summary ")),
-                  ),
-                  Expanded(
-                    flex: 2,
-                    child: Container(
-                        decoration: BoxDecoration(color: Colors.blue),
-                        child: Text("Overview of upcoming payment ")),
+                  const Expanded(
+                    flex: 3,
+                    child: BillSummary(
+                      totalOutstanding: 58588,
+                      pendingBilles: 231,
+                      dueDate: "14 Sept 2024",
+                    ),
                   ),
                   Expanded(
                     flex: 3,
+                    child: ListView.builder(
+                      itemCount: 5,
+                      itemBuilder: (context, index) {
+                        return UpcomingBill(
+                          onClick: () => {},
+                          billAmount: 3000,
+                          billName: "Electric",
+                          dueDate: "Sept 13 2024",
+                        );
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
                     child: Container(
                         decoration: BoxDecoration(color: Colors.blue),
                         child: Text("Overview of payment history ")),
@@ -104,3 +117,11 @@ class HomeScreen extends StatelessWidget {
     );
   }
 }
+
+
+          // UpcomingBill(
+          //                 onClick: () => {},
+          //                 billAmount: 3000,
+          //                 billName: "Electric",
+          //                 dueDate: "Sept 13 2024",
+          //               ),
