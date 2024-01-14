@@ -108,7 +108,7 @@ class HomeScreen extends StatelessWidget {
                       itemCount: 5,
                       itemBuilder: (context, index) {
                         return UpcomingBill(
-                          onClick: () => {},
+                          onClick: () => {_showPaymentDialog(context)},
                           billAmount: 3000,
                           billName: "Electric",
                           dueDate: "Sept 13 2024",
@@ -153,4 +153,55 @@ class HomeScreen extends StatelessWidget {
       ),
     );
   }
+}
+
+void _showPaymentDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Payment Confirmation'),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Text('Enter the payment amount:'),
+            const SizedBox(height: 10),
+            TextField(
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
+              onChanged: (value) {
+                print(value);
+              },
+              decoration: const InputDecoration(
+                prefixText: '\ETB ',
+                hintText: 'Enter amount',
+              ),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Perform payment action
+              _makePayment(context, 453);
+            },
+            child: const Text('Confirm Payment'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _makePayment(BuildContext context, double amount) {
+  // Perform payment actions here
+  print('Payment confirmed for \$ $amount');
+  // You can add logic to process the payment, update the UI, etc.
+  Navigator.of(context).pop(); // Close the dialog
 }

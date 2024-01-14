@@ -1,4 +1,5 @@
 import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class SettingScreen extends StatefulWidget {
@@ -112,12 +113,17 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                   ),
                   SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      _showLogoutConfirmationDialog(context);
+                  CustomButton(
+                    horizontalMargin: 0,
+                    verticalMargin: 0,
+                    btnName: const Text(
+                      "Logout",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPress: () => {
+                      _showLogoutConfirmationDialog(context),
                     },
-                    child: Text('Logout'),
-                  ),
+                  )
                 ],
               ),
             ),
@@ -133,21 +139,20 @@ void _showLogoutConfirmationDialog(BuildContext context) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Logout Confirmation'),
-        content: Text('Are you sure you want to logout?'),
+        title: const Text('Logout Confirmation'),
+        content: const Text('Are you sure you want to logout?'),
         actions: [
           TextButton(
             onPressed: () {
-              Navigator.of(context).pop(); // Close the dialog
+              Navigator.of(context).pop();
             },
-            child: Text('Cancel'),
+            child: const Text('Cancel'),
           ),
           TextButton(
             onPressed: () {
-              // Perform logout action
               _logout();
             },
-            child: Text('Logout'),
+            child: const Text('Logout'),
           ),
         ],
       );
