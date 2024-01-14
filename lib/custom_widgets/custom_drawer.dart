@@ -8,9 +8,13 @@ class BillPaymentDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: Colors.blueAccent,
+      // backgroundColor: Colors.blueAccent,
       child: Container(
         padding: const EdgeInsets.only(top: 20),
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+          colors: [Colors.blue, Colors.green],
+        )),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -39,11 +43,11 @@ class BillPaymentDrawer extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   leading: const Icon(
-                    Icons.favorite,
+                    Icons.payment,
                     color: Colors.white,
                   ),
                   title: Text(
-                    'Articles',
+                    'Payment',
                     style: GoogleFonts.lato(
                       textStyle: const TextStyle(
                           fontSize: 16,
@@ -57,11 +61,11 @@ class BillPaymentDrawer extends StatelessWidget {
                     Navigator.pop(context);
                   },
                   leading: const Icon(
-                    FontAwesomeIcons.info,
+                    Icons.swap_horizontal_circle,
                     color: Colors.white,
                   ),
                   title: Text(
-                    'Rooms',
+                    'Transactions',
                     style: GoogleFonts.lato(
                       textStyle: const TextStyle(
                           fontSize: 16,
@@ -159,7 +163,7 @@ class BillPaymentDrawer extends StatelessWidget {
                 color: Colors.white,
               ),
               title: Text(
-                'Power by Life',
+                'Power by Kacha',
                 style: GoogleFonts.lato(
                   textStyle: const TextStyle(
                       fontSize: 16,

@@ -1,86 +1,49 @@
+import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/custom_widgets/custom_drawer.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
-        body: Container(
-      child: Column(
-        children: [
-          Container(
-            height: 151,
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                  colors: [Color(0XFF2AA5E8), Color(0XFFF07AAC)]),
-            ),
-            child: Column(
-              children: [
-                Expanded(
-                  flex: 2,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Container(
-                        width: 31,
-                        height: 31,
-                        margin: EdgeInsets.only(left: 12, top: 13),
-                        decoration: BoxDecoration(
-                          color: Color.fromRGBO(250, 250, 250, 0.5),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Builder(
-                          builder: (ctx) => IconButton(
-                            onPressed: () {
-                              Scaffold.of(ctx).openDrawer();
-                            },
-                            icon: Icon(
-                              Icons.menu,
-                              color: Colors.black,
-                            ),
-                          ),
+      drawer: BillPaymentDrawer(),
+      body: Container(
+        child: Column(
+          children: [
+            Container(
+              height: 56,
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(colors: [Colors.blue, Colors.green]),
+              ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 35,
+                    height: 35,
+                    margin: const EdgeInsets.only(left: 12),
+                    child: Builder(
+                      builder: (ctx) => IconButton(
+                        onPressed: () {
+                          Scaffold.of(ctx).openDrawer();
+                        },
+                        icon: const Icon(
+                          Icons.menu,
+                          color: Colors.white,
                         ),
                       ),
-                      Row(
-                        children: [
-                          Container(
-                            width: 31,
-                            height: 31,
-                            margin: EdgeInsets.only(top: 13),
-                            child: IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.notifications_active),
-                            ),
-                            decoration: BoxDecoration(
-                              color: Color.fromRGBO(255, 255, 255, 0.6),
-                              borderRadius: BorderRadius.circular(11),
-                            ),
-                          ),
-                          const SizedBox(width: 11),
-                          Container(
-                            height: 34,
-                            width: 34,
-                            margin: EdgeInsets.only(top: 13, right: 13),
-                            decoration: BoxDecoration(
-                                image: const DecorationImage(
-                                    fit: BoxFit.fill,
-                                    image:
-                                        AssetImage("assets/images/prof.png")),
-                                borderRadius: BorderRadius.circular(20)),
-                          )
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-                Expanded(
-                  flex: 2,
-                  child: Container(
+                  Container(
                     child: const Text(
-                      "Welcome Rahul",
+                      "Welcome Getachew",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 23,
+                        fontSize: 20,
                         fontWeight: FontWeight.w700,
                         fontFamily: "Mulish",
                         shadows: [
@@ -91,98 +54,53 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                ),
-                Expanded(
-                  flex: 3,
-                  child: Container(
-                    margin:
-                        const EdgeInsets.only(left: 30, right: 30, bottom: 20),
-                    child: TextFormField(
-                      decoration: const InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
+                  Row(
+                    children: [
+                      Container(
+                        height: 35,
+                        width: 35,
+                        margin: EdgeInsets.only(right: 13),
+                        decoration: BoxDecoration(
+                          image: const DecorationImage(
+                            fit: BoxFit.fill,
+                            image: AssetImage("assets/images/prof.png"),
                           ),
-                          enabledBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Colors.white),
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                          ),
-                          suffixIcon: Icon(Icons.search_outlined),
-                          contentPadding: EdgeInsets.only(
-                            left: 16,
-                          ),
-                          fillColor: Colors.white,
-                          filled: true,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(15),
-                            ),
-                          ),
-                          hintText: "Search Topics"),
-                    ),
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      )
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          )
-        ],
+            Container(
+              height: size.height - (APP_BAR_HEIGHT + BOTTOM_SHEET_HEIGHT),
+              child: Column(
+                children: [
+                  Expanded(
+                    flex: 1,
+                    child: Container(
+                        decoration: BoxDecoration(color: Colors.blue),
+                        child: Text("Overview of bill summary ")),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Container(
+                        decoration: BoxDecoration(color: Colors.blue),
+                        child: Text("Overview of upcoming payment ")),
+                  ),
+                  Expanded(
+                    flex: 3,
+                    child: Container(
+                        decoration: BoxDecoration(color: Colors.blue),
+                        child: Text("Overview of payment history ")),
+                  ),
+                ],
+              ),
+            )
+          ],
+        ),
       ),
-    ));
+    );
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      //     CustomScrollView(
-      //   slivers: <Widget>[
-      //     SliverAppBar(
-      //       expandedHeight: 56.0,
-      //       pinned: true,
-      //       leading: IconButton(
-      //         icon: const Icon(
-      //           Icons.arrow_back_ios, // Use your custom icon here
-      //           color: Colors.white, // Customize the icon color
-      //         ),
-      //         onPressed: () {
-      //           // Handle the back button press
-      //           Navigator.of(context).pop();
-      //         },
-      //       ),
-      //       flexibleSpace: FlexibleSpaceBar(
-      //         centerTitle: true,
-      //         title: const Text(
-      //           'Your Bill Bayment',
-      //           style: TextStyle(fontSize: 20),
-      //         ),
-      //         background: Container(
-      //           decoration: const BoxDecoration(
-      //             gradient: LinearGradient(
-      //               colors: [Colors.blue, Colors.green],
-      //               begin: Alignment.topLeft,
-      //               end: Alignment.bottomRight,
-      //             ),
-      //           ),
-      //         ),
-      //       ),
-      //     ),
-      //   ],
-      // ),

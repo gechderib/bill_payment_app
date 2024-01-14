@@ -1,3 +1,5 @@
+import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/custom_widgets/custom_bottom_menu.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
 import 'package:billpayment/screens/home_screen.dart';
 import 'package:billpayment/screens/profile_screen.dart';
@@ -61,115 +63,37 @@ class MainScreen extends StatelessWidget {
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       bottomNavigationBar: BottomAppBar(
+        height: BOTTOM_SHEET_HEIGHT,
         shape: const CircularNotchedRectangle(),
         color: Color.fromARGB(255, 45, 159, 204),
         child: Container(
-          height: 56,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  IconButton(
-                    padding: const EdgeInsets.only(top: 10),
-                    constraints: const BoxConstraints(),
-                    onPressed: () {
-                      uiProvider.changeIndex(0);
-                    },
-                    icon: const Icon(
-                      Icons.home,
-                      color: Colors.white,
-                    ),
-                  ),
-                  Text(
-                    "Home",
-                    style: GoogleFonts.lato(
-                        textStyle:
-                            const TextStyle(fontSize: 8, color: Colors.white)),
-                  ),
-                ],
+              CustomBottomMenu(
+                onClick: () => {uiProvider.changeIndex(0)},
+                icon: Icons.home,
+                menuName: "Home",
               ),
-              Column(
-                children: [
-                  IconButton(
-                      padding: const EdgeInsets.only(top: 10),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        uiProvider.changeIndex(1);
-                      },
-                      icon: const FaIcon(
-                        FontAwesomeIcons.book,
-                        color: Color.fromARGB(255, 255, 255, 255),
-                      )),
-                  Text(
-                    "Resources",
-                    style: GoogleFonts.lato(
-                        textStyle:
-                            const TextStyle(fontSize: 8, color: Colors.white)),
-                  ),
-                ],
+              CustomBottomMenu(
+                onClick: () => {uiProvider.changeIndex(1)},
+                icon: Icons.swap_horizontal_circle,
+                menuName: "Transaction",
               ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  IconButton(
-                      padding: const EdgeInsets.only(top: 10),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        uiProvider.changeIndex(2);
-                      },
-                      icon: const Icon(
-                        Icons.help_outline_outlined,
-                        color: Colors.white,
-                      )),
-                  Text(
-                    "Help",
-                    style: GoogleFonts.lato(
-                        textStyle:
-                            const TextStyle(fontSize: 8, color: Colors.white)),
-                  ),
-                ],
+              CustomBottomMenu(
+                onClick: () => {uiProvider.changeIndex(2)},
+                icon: Icons.payment,
+                menuName: "Payment",
               ),
-              Column(
-                children: [
-                  IconButton(
-                      padding: const EdgeInsets.only(top: 10),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        uiProvider.changeIndex(3);
-                      },
-                      icon: const Icon(
-                        Icons.help_outline_outlined,
-                        color: Colors.white,
-                      )),
-                  Text(
-                    "Help",
-                    style: GoogleFonts.lato(
-                        textStyle:
-                            const TextStyle(fontSize: 8, color: Colors.white)),
-                  ),
-                ],
+              CustomBottomMenu(
+                onClick: () => {uiProvider.changeIndex(3)},
+                icon: Icons.settings,
+                menuName: "Setting",
               ),
-              Column(
-                children: [
-                  IconButton(
-                      padding: const EdgeInsets.only(top: 10),
-                      constraints: const BoxConstraints(),
-                      onPressed: () {
-                        uiProvider.changeIndex(4);
-                      },
-                      icon: const FaIcon(
-                        FontAwesomeIcons.user,
-                        color: Colors.white,
-                      )),
-                  Text(
-                    "Profile",
-                    style: GoogleFonts.lato(
-                        textStyle:
-                            const TextStyle(fontSize: 8, color: Colors.white)),
-                  ),
-                ],
+              CustomBottomMenu(
+                onClick: () => {uiProvider.changeIndex(4)},
+                icon: Icons.person,
+                menuName: "Account",
               ),
             ],
           ),
@@ -178,3 +102,89 @@ class MainScreen extends StatelessWidget {
     );
   }
 }
+
+
+
+             
+              // Column(
+              //   children: [
+              //     IconButton(
+              //         padding: const EdgeInsets.only(top: 10),
+              //         constraints: const BoxConstraints(),
+              //         onPressed: () {
+              //           uiProvider.changeIndex(1);
+              //         },
+              //         icon: const FaIcon(
+              //           FontAwesomeIcons.book,
+              //           color: Color.fromARGB(255, 255, 255, 255),
+              //         )),
+              //     Text(
+              //       "Resources",
+              //       style: GoogleFonts.lato(
+              //           textStyle:
+              //               const TextStyle(fontSize: 8, color: Colors.white)),
+              //     ),
+              //   ],
+              // ),
+              // Column(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+              //     IconButton(
+              //         padding: const EdgeInsets.only(top: 10),
+              //         constraints: const BoxConstraints(),
+              //         onPressed: () {
+              //           uiProvider.changeIndex(2);
+              //         },
+              //         icon: const Icon(
+              //           Icons.help_outline_outlined,
+              //           color: Colors.white,
+              //         )),
+              //     Text(
+              //       "Help",
+              //       style: GoogleFonts.lato(
+              //           textStyle:
+              //               const TextStyle(fontSize: 8, color: Colors.white)),
+              //     ),
+              //   ],
+              // ),
+              // Column(
+              //   children: [
+              //     IconButton(
+              //         padding: const EdgeInsets.only(top: 10),
+              //         constraints: const BoxConstraints(),
+              //         onPressed: () {
+              //           uiProvider.changeIndex(3);
+              //         },
+              //         icon: const Icon(
+              //           Icons.help_outline_outlined,
+              //           color: Colors.white,
+              //         )),
+              //     Text(
+              //       "Help",
+              //       style: GoogleFonts.lato(
+              //           textStyle:
+              //               const TextStyle(fontSize: 8, color: Colors.white)),
+              //     ),
+              //   ],
+              // ),
+              // Column(
+              //   children: [
+              //     IconButton(
+              //         padding: const EdgeInsets.only(top: 10),
+              //         constraints: const BoxConstraints(),
+              //         onPressed: () {
+              //           uiProvider.changeIndex(4);
+              //         },
+              //         icon: const FaIcon(
+              //           FontAwesomeIcons.user,
+              //           color: Colors.white,
+              //         )),
+              //     Text(
+              //       "Profile",
+              //       style: GoogleFonts.lato(
+              //           textStyle:
+              //               const TextStyle(fontSize: 8, color: Colors.white)),
+              //     ),
+              //   ],
+              // ),
+           
