@@ -111,6 +111,13 @@ class _SettingScreenState extends State<SettingScreen> {
                           .toList(),
                     ),
                   ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      _showLogoutConfirmationDialog(context);
+                    },
+                    child: Text('Logout'),
+                  ),
                 ],
               ),
             ),
@@ -118,6 +125,38 @@ class _SettingScreenState extends State<SettingScreen> {
         ],
       ),
     );
-    ;
   }
+}
+
+void _showLogoutConfirmationDialog(BuildContext context) {
+  showDialog(
+    context: context,
+    builder: (BuildContext context) {
+      return AlertDialog(
+        title: Text('Logout Confirmation'),
+        content: Text('Are you sure you want to logout?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pop(); // Close the dialog
+            },
+            child: Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () {
+              // Perform logout action
+              _logout();
+            },
+            child: Text('Logout'),
+          ),
+        ],
+      );
+    },
+  );
+}
+
+void _logout() {
+  // Perform logout actions here
+  print('User logged out');
+  // Navigate to login screen or perform other necessary actions
 }
