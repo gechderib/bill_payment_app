@@ -2,8 +2,10 @@ import 'package:billpayment/constants/const.dart';
 import 'package:billpayment/custom_widgets/custom_bottom_menu.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
 import 'package:billpayment/screens/home_screen.dart';
+import 'package:billpayment/screens/payment_screen.dart';
 import 'package:billpayment/screens/profile_screen.dart';
 import 'package:billpayment/screens/settings_screen.dart';
+import 'package:billpayment/screens/transaction_history_screen.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -18,8 +20,10 @@ class MainScreen extends StatelessWidget {
     final uiProvider = Provider.of<UiServiceProvider>(context);
     List<Widget> _widgetOptions = <Widget>[
       HomeScreen(),
-      ProfileScreen(),
+      TransactionHistoryScreen(),
+      PaymentScreen(),
       SettingScreen(),
+      ProfileScreen(),
     ];
     return Scaffold(
       drawer: BillPaymentDrawer(),
@@ -50,7 +54,7 @@ class MainScreen extends StatelessWidget {
                   ),
                   child: IconButton(
                     color: Colors.white,
-                    icon: const Icon(Icons.add),
+                    icon: const Icon(Icons.currency_exchange),
                     onPressed: () {
                       uiProvider.changeIndex(2);
                     },
@@ -80,11 +84,12 @@ class MainScreen extends StatelessWidget {
                 icon: Icons.swap_horizontal_circle,
                 menuName: "Transaction",
               ),
-              CustomBottomMenu(
-                onClick: () => {uiProvider.changeIndex(2)},
-                icon: Icons.payment,
-                menuName: "Payment",
-              ),
+              // CustomBottomMenu(
+              //   onClick: () => {uiProvider.changeIndex(2)},
+              //   icon: Icons.payment,
+              //   menuName: "Payment",
+              // ),
+              Container(),
               CustomBottomMenu(
                 onClick: () => {uiProvider.changeIndex(3)},
                 icon: Icons.settings,

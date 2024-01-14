@@ -14,25 +14,24 @@ class CustomBottomMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        IconButton(
-          padding: const EdgeInsets.only(top: 10),
-          constraints: const BoxConstraints(),
-          onPressed: () => onClick,
-          icon: Icon(
+    return GestureDetector(
+      onTap: () => {onClick()},
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Icon(
             icon,
             color: Colors.white,
           ),
-        ),
-        Text(
-          menuName,
-          style: GoogleFonts.lato(
-            textStyle: const TextStyle(fontSize: 8, color: Colors.white),
+          Text(
+            menuName,
+            style: GoogleFonts.lato(
+              textStyle: const TextStyle(fontSize: 10, color: Colors.white),
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
