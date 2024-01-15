@@ -18,6 +18,3 @@ class Bill {
         status: json["status"]);
   }
 }
-
-  // factory ArticleModel.fromJson(Map<String, dynamic> json) {
-
