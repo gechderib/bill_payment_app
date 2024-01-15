@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthInfo extends ChangeNotifier {
   String phone = "";
@@ -34,41 +37,21 @@ class AuthInfo extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Future loginUser(Map<String, dynamic> user) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool result = await prefs.setString("user", jsonEncode(user));
-  // }
+  Future addloginUserInfo(Map<String, dynamic> user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool result = await prefs.setString("user", jsonEncode(user));
+  }
 
-  // Future logedOutUser() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool result = await prefs.remove("user");
-  // }
+  Future logedOutUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool result = await prefs.remove("user");
+  }
 
-  //  Future getUser() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   var result = prefs.getString("user")!;
-  //   var userMap = jsonDecode(result);
-  //   logedUserInfo = userMap;
-  //   notifyListeners();
-
-  // }
-
-  //   Future addCategory(List category) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool result = await prefs.setString("category", jsonEncode(category));
-  // }
-
-  // Future clearCategory() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   bool result = await prefs.remove("category");
-  // }
-
-  // Future getCategory() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   var result = prefs.getString("category")!;
-  //   var categoryMap = jsonDecode(result);
-  //   catagoryInfo = categoryMap;
-  //   notifyListeners();
-
-  // }
+  Future getLoginUser() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var result = prefs.getString("user")!;
+    var userMap = jsonDecode(result);
+    logedUserInfo = userMap;
+    notifyListeners();
+  }
 }

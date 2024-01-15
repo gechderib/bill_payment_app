@@ -3,7 +3,9 @@ import 'package:billpayment/constants/styles/decoration.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/custom_widgets/custom_label.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
+import 'package:billpayment/models/user.dart';
 import 'package:billpayment/routes/routes.dart';
+import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -11,16 +13,17 @@ import 'package:provider/provider.dart';
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});
 
-  void _handleLogin(String phone, String password) {
-    print('Phone Number: $phone');
-    print('Password: $password');
-  }
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final authInfo = Provider.of<AuthInfo>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
+    final uiProvider = Provider.of<UiServiceProvider>(context);
 
+    var loginUserInfo = {
+      "phone": authInfo.phone,
+      "password": authInfo.password
+    };
     return Scaffold(
       body: Container(
         width: size.width,
@@ -76,8 +79,11 @@ class LoginScreen extends StatelessWidget {
                       height: 10,
                     ),
                     CustomButton(
-                      onPress: () {
-                        _handleLogin(authInfo.phone, authInfo.password);
+                      onPress: () async {
+                        uiProvider.changeIsLoging(true);
+                        var user = await authProvider
+                            .loginUser(LoginModel.fromJson(loginUserInfo));
+                        uiProvider.changeIsLoging(false);
                       },
                       horizontalMargin: 0,
                       verticalMargin: 0,

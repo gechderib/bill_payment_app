@@ -7,6 +7,7 @@ class UiServiceProvider extends ChangeNotifier {
   bool isObsecure = true;
   bool isLoging = false;
 
+  int prevActiveIndex = 0;
   int activeTabIndex = 0;
 
   Future<void> loadContent(BuildContext context) async {
@@ -26,6 +27,14 @@ class UiServiceProvider extends ChangeNotifier {
 
   void changeIndex(int index) async {
     activeTabIndex = index;
+    if (activeTabIndex > 0) {
+      prevActiveIndex = activeTabIndex - 1;
+    }
+    notifyListeners();
+  }
+
+  void changeIsLoging(bool loging) {
+    isLoging = loging;
     notifyListeners();
   }
 }

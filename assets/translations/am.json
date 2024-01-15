@@ -1,0 +1,14 @@
+{
+    "welcome":"እንኳን ደህና መጣህ",
+    "total":"ጠቅላላ",
+    "due_date": "የመጨረሻ ማስረከቢያ ቀን",
+    "pending": "በመጠባበቅ ላይ",
+    "bills":"ሂሳቦች",
+    "pay": "ይክፈሉ",
+    "payment":"ክፍያ",
+    "history":"ታሪክ",
+    "home":"ቤት",
+    "transactions":"ግብይቶች",
+    "settings":"ቅንብሮች",
+    "account":"Settings"
+}

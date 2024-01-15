@@ -1,0 +1,14 @@
+{
+    "welcome":"Welcome",
+    "total":"Total",
+    "due_date": "Due Date",
+    "pending": "Pending Bills",
+    "bills":"Bills",
+    "pay": "Pay",
+    "payment":"Payment",
+    "history":"History",
+    "home":"Home",
+    "transactions":"Transactions",
+    "settings":"Settings",
+    "account":"Account"
+}
