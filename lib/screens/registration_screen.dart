@@ -13,6 +13,8 @@ import 'package:provider/provider.dart';
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});
 
+  void handelRegistration(BuildContext context) {}
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -104,7 +106,9 @@ class RegistrationScreen extends StatelessWidget {
                           final user = await authProvider.createUser(
                             UserModel.fromJson(registrationInfo),
                           );
-                          print(user);
+                          // print(user);
+                          // Navigator.of(context)
+                          //     .pushNamed(RouteGenerator.loginScreen);
 
                           uiProvider.changeIsLoging(false);
                         },
@@ -134,14 +138,16 @@ class RegistrationScreen extends StatelessWidget {
                                   color: Color(0xFF1E3354), fontSize: 16),
                             ),
                             TextButton(
-                                onPressed: () {
-                                  Navigator.of(context)
-                                      .pushNamed(RouteGenerator.loginScreen);
-                                },
-                                child: const Text(
-                                  "Sign In",
-                                  style: TextStyle(fontSize: 16),
-                                ))
+                              onPressed: () {
+                                Navigator.of(context)
+                                    .pushNamed(RouteGenerator.loginScreen);
+                              },
+                              child: const Text(
+                                "Sign In",
+                                style: TextStyle(
+                                    fontSize: 16, color: Color(0XFF6286CB)),
+                              ),
+                            )
                           ],
                         ),
                       ),
