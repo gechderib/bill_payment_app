@@ -59,7 +59,9 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                   ),
                 ),
-                Container()
+                Container(
+                  margin: EdgeInsets.only(left: 40),
+                )
               ],
             ),
           ),

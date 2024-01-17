@@ -85,9 +85,9 @@ var passwordFormFieldDecoration = InputDecoration(
 );
 
 var buttonDecoration = const BoxDecoration(
-  borderRadius: BorderRadius.all(Radius.circular(5)),
+  borderRadius: BorderRadius.all(Radius.circular(40)),
   gradient: LinearGradient(
-    colors: [Colors.blue, Colors.green],
+    colors: [Color.fromARGB(255, 23, 109, 179), Colors.green],
   ),
   boxShadow: [
     BoxShadow(

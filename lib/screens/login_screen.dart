@@ -29,7 +29,7 @@ class LoginScreen extends StatelessWidget {
         width: size.width,
         height: size.height,
         child: Container(
-          decoration: appBackgroundDecoration,
+          // decoration: appBackgroundDecoration,
           child: Column(
             children: [
               Container(
@@ -193,10 +193,8 @@ class LoginScreen extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            // Navigator.of(context)
-                            //     .pushNamed(RouteGenerator.signupScreen);
                             Navigator.of(context)
-                                .pushNamed(RouteGenerator.homeScreen);
+                                .pushNamed(RouteGenerator.signupScreen);
                           },
                           child: const Text(
                             "Sign Up",

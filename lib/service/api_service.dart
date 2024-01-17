@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:billpayment/constants/const.dart';
 import 'package:billpayment/models/user.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 
 class AuthProvider extends ChangeNotifier {
@@ -12,24 +13,31 @@ class AuthProvider extends ChangeNotifier {
       'X-RapiRapidAPIdAPI-Host': 'user-auth2.p.rapidapi.com'
     };
 
-    final response = await http.post(
-      Uri.parse("$BASE_URL/register"),
-      headers: header,
-      body: jsonEncode(
-        <String, dynamic>{
-          "fullName": user.fullName,
-          "email": user.email,
-          "phone": user.phone,
-          "password": user.password
-        },
-      ),
-    );
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else if (response.statusCode == 400) {
-      return json.decode(response.body);
-    } else {
-      throw Exception("Failed to create user");
+    try {
+      final response = await http.post(
+        Uri.parse("$BASE_URL/login"),
+        headers: header,
+        body: jsonEncode(
+          <String, dynamic>{
+            "fullName": user.fullName,
+            "email": user.email,
+            "phone": user.phone,
+            "password": user.password
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else if (response.statusCode == 400) {
+        return json.decode(response.body);
+      } else if (response.statusCode == 404) {
+        return json.decode(response.body);
+      } else {
+        print(response.statusCode);
+        throw Exception("Failed to create user");
+      }
+    } catch (e) {
+      print(e);
     }
   }
 
@@ -48,10 +56,11 @@ class AuthProvider extends ChangeNotifier {
           <String, dynamic>{"phone": user.phone, "password": user.password},
         ),
       );
-      print(response);
       if (response.statusCode == 200) {
         return json.decode(response.body);
       } else if (response.statusCode == 400) {
+        return json.decode(response.body);
+      } else if (response.statusCode == 404) {
         return json.decode(response.body);
       } else {
         throw Exception("Failed to login user");

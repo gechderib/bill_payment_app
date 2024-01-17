@@ -54,7 +54,9 @@ class PaymentScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container()
+                Container(
+                  margin: EdgeInsets.only(left: 40),
+                )
               ],
             ),
           ),
@@ -107,7 +109,7 @@ class PaymentScreen extends StatelessWidget {
                       },
                     ).toList(),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   TextField(
                     keyboardType:
                         TextInputType.numberWithOptions(decimal: true),
@@ -115,7 +117,7 @@ class PaymentScreen extends StatelessWidget {
                       uiProvider
                           .setPaymentAmount(double.tryParse(value) ?? 0.0);
                     },
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       labelText: 'Enter Amount',
                     ),
                   ),
@@ -123,7 +125,10 @@ class PaymentScreen extends StatelessWidget {
                   CustomButton(
                       horizontalMargin: 0,
                       verticalMargin: 10,
-                      btnName: Text("Confirm Payment"),
+                      btnName: const Text(
+                        "Confirm Payment",
+                        style: TextStyle(color: Colors.white),
+                      ),
                       onPress: () {
                         _confirmPayment(context);
                       }),

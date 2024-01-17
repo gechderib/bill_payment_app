@@ -1,3 +1,4 @@
+import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class BillDetailScreen extends StatelessWidget {
@@ -52,45 +53,71 @@ class BillDetailScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container()
+                Container(
+                  margin: EdgeInsets.only(left: 40),
+                )
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Bill Title: $billTitle',
-                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Amount: \$${billAmount.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Due Date: $dueDate',
-                  style: TextStyle(fontSize: 16.0),
-                ),
-                SizedBox(height: 10.0),
-                Text(
-                  'Status: ${isPaid ? 'Paid' : 'Pending'}',
-                  style: TextStyle(
-                    fontSize: 16.0,
-                    color: isPaid ? Colors.green : Colors.red,
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.symmetric(vertical: 40, horizontal: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  const Text(
+                    'Name: electric',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
-                ),
-                SizedBox(height: 20.0),
-                ElevatedButton(
-                  onPressed: () {
-                    _onActionButtonPressed();
-                  },
-                  child: Text(isPaid ? 'View Receipt' : 'Pay Bill'),
-                ),
-              ],
+                  const SizedBox(height: 8.0),
+                  const Text(
+                    'Amount: 7893',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  const Text(
+                    'Due Date: juldueDate 12 2033',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: Colors.grey,
+                    ),
+                  ),
+                  const SizedBox(height: 8.0),
+                  Text(
+                    'Status: pending',
+                    style: TextStyle(
+                      fontSize: 16.0,
+                      color: getStatusColor("Pending"),
+                    ),
+                  ),
+                  // const Spacer(),
+                  const SizedBox(
+                    height: 50,
+                  ),
+                  CustomButton(
+                    onPress: () => {},
+                    btnName: const Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.payment, color: Colors.white),
+                        SizedBox(width: 8.0),
+                        Text(
+                          'Pay Bill',
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      ],
+                    ),
+                    horizontalMargin: 0,
+                    verticalMargin: 0,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -102,4 +129,17 @@ class BillDetailScreen extends StatelessWidget {
 void _onActionButtonPressed() {
   // Implement logic for the action (e.g., navigate to payment screen)
   print('Action button pressed');
+}
+
+Color getStatusColor(String status) {
+  switch (status) {
+    case 'Paid':
+      return Colors.green;
+    case 'Pending':
+      return Colors.orange;
+    case 'Overdue':
+      return Colors.red;
+    default:
+      return Colors.black;
+  }
 }

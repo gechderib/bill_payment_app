@@ -78,15 +78,29 @@ class TransactionHistoryScreen extends StatelessWidget {
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: TextField(
-              onChanged: (query) {
-                print(query);
-              },
-              decoration: const InputDecoration(
-                hintText: 'Search Transactions',
-                prefixIcon: Icon(Icons.search),
+          Container(
+            margin: EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30.0),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: const TextField(
+              style: TextStyle(fontSize: 16.0),
+              decoration: InputDecoration(
+                contentPadding:
+                    EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
+                hintText: 'Search...',
+                hintStyle: TextStyle(color: Colors.grey),
+                border: InputBorder.none,
+                prefixIcon: Icon(Icons.search, color: Colors.grey),
               ),
             ),
           ),
@@ -108,6 +122,7 @@ class TransactionHistoryScreen extends StatelessWidget {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
         onPressed: () {
           _downloadStatements();
         },

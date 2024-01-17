@@ -92,14 +92,13 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(left: 10),
+                    margin: const EdgeInsets.only(left: 10, top: 10),
                     child: const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Pending Bills",
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                           color: Color.fromARGB(221, 34, 34, 34),
                         ),
                       ),
@@ -122,14 +121,13 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   Container(
-                    margin: const EdgeInsets.only(left: 10),
+                    margin: const EdgeInsets.only(left: 10, top: 20),
                     child: const Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
                         "Payment History",
                         style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
                           color: Color.fromARGB(221, 34, 34, 34),
                         ),
                       ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class UiServiceProvider extends ChangeNotifier {
   bool _isLoading = true;
@@ -36,5 +37,16 @@ class UiServiceProvider extends ChangeNotifier {
   void changeIsLoging(bool loging) {
     isLoging = loging;
     notifyListeners();
+  }
+
+  Future showToast() {
+    return Fluttertoast.showToast(
+        msg: "This is Center Short Toast",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
   }
 }

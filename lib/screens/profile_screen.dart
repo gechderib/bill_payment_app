@@ -61,7 +61,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ),
                 ),
-                Container()
+                Container(
+                  margin: EdgeInsets.only(left: 40),
+                )
               ],
             ),
           ),

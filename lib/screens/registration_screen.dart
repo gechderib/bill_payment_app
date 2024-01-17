@@ -3,25 +3,28 @@ import 'package:billpayment/constants/styles/decoration.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/custom_widgets/custom_label.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
+import 'package:billpayment/models/user.dart';
 import 'package:billpayment/routes/routes.dart';
+import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});
-  void _handelRegister(
-      String fullName, String email, String phone, String password) {
-    print('Phone Number: $phone');
-    print('Password: $password');
-    print('fullName: $fullName');
-    print('email: $email');
-  }
 
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final authInfo = Provider.of<AuthInfo>(context);
+    final authProvider = Provider.of<AuthProvider>(context);
+    final uiProvider = Provider.of<UiServiceProvider>(context);
+    var registrationInfo = {
+      "fullName": authInfo.fullName,
+      "email": authInfo.email,
+      "phone": authInfo.phone,
+      "password": authInfo.password
+    };
 
     return Scaffold(
       body: Container(
@@ -29,7 +32,8 @@ class RegistrationScreen extends StatelessWidget {
         width: size.width,
         height: size.height,
         child: Container(
-          decoration: appBackgroundDecoration,
+          // decoration: appBackgroundDecoration,
+          padding: EdgeInsets.only(top: 30),
           child: Column(
             children: [
               Container(
@@ -94,18 +98,25 @@ class RegistrationScreen extends StatelessWidget {
                       height: 10,
                     ),
                     CustomButton(
-                      onPress: () {
-                        _handelRegister(authInfo.fullName, authInfo.email,
-                            authInfo.phone, authInfo.password);
+                      onPress: () async {
+                        uiProvider.changeIsLoging(true);
+                        final user = await authProvider
+                            .createUser(UserModel.fromJson(registrationInfo));
+                        print(user);
+                        uiProvider.showToast();
+                        uiProvider.changeIsLoging(false);
+                        Navigator.of(context)
+                            .pushNamed(RouteGenerator.signupScreen);
                       },
                       horizontalMargin: 0,
                       verticalMargin: 0,
                       btnName: Consumer<UiServiceProvider>(
-                          builder: (context, uiProvider, _) {
-                        return uiProvider.isLoging
-                            ? const CircularProgressIndicator()
-                            : const Text("Signup", style: textStyle);
-                      }),
+                        builder: (context, uiProvider, _) {
+                          return uiProvider.isLoging
+                              ? const CircularProgressIndicator()
+                              : const Text("Signup", style: textStyle);
+                        },
+                      ),
                     ),
                     Container(
                       height: 35,
