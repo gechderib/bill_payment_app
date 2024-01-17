@@ -27,122 +27,129 @@ class RegistrationScreen extends StatelessWidget {
     };
 
     return Scaffold(
-      body: Container(
-        alignment: Alignment.center,
-        width: size.width,
-        height: size.height,
+      body: SingleChildScrollView(
         child: Container(
-          // decoration: appBackgroundDecoration,
-          padding: EdgeInsets.only(top: 30),
-          child: Column(
-            children: [
-              Container(
-                margin: const EdgeInsets.only(left: 24, right: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Label(label: "Full Name"),
-                    CustomTextInputField(
-                      onValueChnage: (value) {
-                        authInfo.fullName = value;
-                      },
-                      hint: "full name",
-                      decoration: textFormFieldDecoration,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Label(label: "Email"),
-                    CustomTextInputField(
-                      onValueChnage: (value) {
-                        authInfo.email = value;
-                      },
-                      hint: "email",
-                      decoration: textFormFieldDecoration,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Label(label: "Email/Phone number"),
-                    CustomTextInputField(
-                      onValueChnage: (value) {
-                        authInfo.phone = value;
-                      },
-                      hint: "email/phone",
-                      decoration: textFormFieldDecoration,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    const Label(label: "Password"),
-                    CustomPasswordInputField(
+          alignment: Alignment.center,
+          width: size.width,
+          height: size.height,
+          child: Container(
+            // decoration: appBackgroundDecoration,
+            padding: const EdgeInsets.only(top: 40),
+            child: Column(
+              children: [
+                Container(
+                  margin: const EdgeInsets.only(left: 24, right: 24),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Label(label: "Full Name"),
+                      CustomTextInputField(
                         onValueChnage: (value) {
-                          authInfo.password = value;
+                          authInfo.fullName = value;
                         },
-                        hint: "password",
-                        decoration: passwordFormFieldDecoration),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const Label(label: "Confirm Password"),
-                    CustomPasswordInputField(
+                        hint: "full name",
+                        decoration: textFormFieldDecoration,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Label(label: "Email"),
+                      CustomTextInputField(
                         onValueChnage: (value) {
-                          authInfo.password = value;
+                          authInfo.email = value;
                         },
-                        hint: "confirm password",
-                        decoration: passwordFormFieldDecoration),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    CustomButton(
-                      onPress: () async {
-                        final user = await authProvider
-                            .createUser(UserModel.fromJson(registrationInfo));
-                        Navigator.of(context)
-                            .pushNamed(RouteGenerator.signupScreen);
-                      },
-                      horizontalMargin: 0,
-                      verticalMargin: 0,
-                      btnName: Consumer<UiServiceProvider>(
-                        builder: (context, uiProvider, _) {
-                          return uiProvider.isLoging
-                              ? const CircularProgressIndicator()
-                              : const Text("Signup", style: textStyle);
+                        hint: "email",
+                        decoration: textFormFieldDecoration,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      const Label(label: "Email/Phone number"),
+                      CustomTextInputField(
+                        onValueChnage: (value) {
+                          authInfo.phone = value;
                         },
+                        hint: "email/phone",
+                        decoration: textFormFieldDecoration,
                       ),
-                    ),
-                    Container(
-                      height: 35,
-                      margin: const EdgeInsets.only(
-                        bottom: 10,
+                      const SizedBox(
+                        height: 10,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          const Text(
-                            "Already have an account?.",
-                            style: TextStyle(
-                                color: Color(0xFF1E3354), fontSize: 16),
-                          ),
-                          TextButton(
-                              onPressed: () {
-                                Navigator.of(context)
-                                    .pushNamed(RouteGenerator.loginScreen);
-                              },
-                              child: const Text(
-                                "Sign In",
-                                style: TextStyle(fontSize: 16),
-                              ))
-                        ],
+                      const Label(label: "Password"),
+                      CustomPasswordInputField(
+                          onValueChnage: (value) {
+                            authInfo.password = value;
+                          },
+                          hint: "password",
+                          decoration: passwordFormFieldDecoration),
+                      const SizedBox(
+                        height: 15,
                       ),
-                    ),
-                  ], // isLoging
-                ),
-              )
-            ],
+                      const Label(label: "Confirm Password"),
+                      CustomPasswordInputField(
+                          onValueChnage: (value) {
+                            authInfo.password = value;
+                          },
+                          hint: "confirm password",
+                          decoration: passwordFormFieldDecoration),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      CustomButton(
+                        onPress: () async {
+                          uiProvider.changeIsLoging(true);
+                          final user = await authProvider.createUser(
+                            UserModel.fromJson(registrationInfo),
+                          );
+                          print(user);
+
+                          uiProvider.changeIsLoging(false);
+                        },
+                        horizontalMargin: 0,
+                        verticalMargin: 0,
+                        btnName: Consumer<UiServiceProvider>(
+                          builder: (context, uiProvider, _) {
+                            return uiProvider.isLoging
+                                ? const CircularProgressIndicator(
+                                    color: Colors.white,
+                                  )
+                                : const Text("Signup", style: textStyle);
+                          },
+                        ),
+                      ),
+                      Container(
+                        height: 35,
+                        margin: const EdgeInsets.only(
+                          bottom: 10,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            const Text(
+                              "Already have an account?.",
+                              style: TextStyle(
+                                  color: Color(0xFF1E3354), fontSize: 16),
+                            ),
+                            TextButton(
+                                onPressed: () {
+                                  Navigator.of(context)
+                                      .pushNamed(RouteGenerator.loginScreen);
+                                },
+                                child: const Text(
+                                  "Sign In",
+                                  style: TextStyle(fontSize: 16),
+                                ))
+                          ],
+                        ),
+                      ),
+                    ], // isLoging
+                  ),
+                )
+              ],
+            ),
           ),
         ),
       ),

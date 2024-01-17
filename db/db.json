@@ -1,6 +1,35 @@
 {
-  "users": [],
-  "login":[],
+  "users": [
+    {
+      "id": "5fc6",
+      "fullName": "getachew derib",
+      "email": "gechderib@gmail.com",
+      "phone": "0911223344",
+      "password": "123456"
+    },
+    {
+      "id": "883b",
+      "fullName": "getachew derib",
+      "email": "gechderib@gmail.com",
+      "phone": "0911223344",
+      "password": "123456"
+    },
+    {
+      "id": "f626",
+      "fullName": "ihuh7",
+      "email": "jbuh",
+      "phone": "h8jijinin",
+      "password": "kni"
+    },
+    {
+      "id": "9bda",
+      "fullName": "",
+      "email": "",
+      "phone": "",
+      "password": ""
+    }
+  ],
+  "login": [],
   "bills": [
     {
       "id": "1",
