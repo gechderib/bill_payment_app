@@ -1,0 +1,24 @@
+{
+  "users": [],
+  "login":[],
+  "bills": [
+    {
+      "id": "1",
+      "name": "Electric",
+      "amout": 895.7,
+      "dueDate": "July 12 2023",
+      "status": "pending",
+      "user_id": 1
+    }
+  ],
+  "transactions": [
+    {
+      "id": "1",
+      "name": "Electric",
+      "amout": 895.7,
+      "dueDate": "July 12 2023",
+      "status": "pending",
+      "user_id": 1
+    }
+  ]
+}

@@ -39,14 +39,14 @@ class UiServiceProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future showToast() {
+  Future showToast(String message, Color backgroundColor, Color textColor) {
     return Fluttertoast.showToast(
-        msg: "This is Center Short Toast",
+        msg: message,
         toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
+        gravity: ToastGravity.TOP_LEFT,
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
+        backgroundColor: backgroundColor,
+        textColor: textColor,
         fontSize: 16.0);
   }
 }

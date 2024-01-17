@@ -99,12 +99,8 @@ class RegistrationScreen extends StatelessWidget {
                     ),
                     CustomButton(
                       onPress: () async {
-                        uiProvider.changeIsLoging(true);
                         final user = await authProvider
                             .createUser(UserModel.fromJson(registrationInfo));
-                        print(user);
-                        uiProvider.showToast();
-                        uiProvider.changeIsLoging(false);
                         Navigator.of(context)
                             .pushNamed(RouteGenerator.signupScreen);
                       },
