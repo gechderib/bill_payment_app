@@ -46,7 +46,7 @@ class LoginScreen extends StatelessWidget {
           Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => MainScreen(),
+              builder: (context) => VerificationScreen(),
             ),
           );
           // VerificationScreen

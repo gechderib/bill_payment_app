@@ -234,7 +234,7 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Payment Confirmation'),
+        title: const Text('Confirm'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

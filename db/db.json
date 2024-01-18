@@ -5,7 +5,7 @@
       "fullName": "Getachew Derib",
       "email": "gech@gmail.xom",
       "phone": "251953890542",
-      "password": "4444"
+      "password": "5555"
     },
     {
       "id": "4e7c",
@@ -42,6 +42,22 @@
       "id": "1Eg5",
       "name": "Electric",
       "amount": 895.7,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "1kg5",
+      "name": "Internet",
+      "amount": 999.7,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "1ng0",
+      "name": "Tax",
+      "amount": 455.7,
       "dueDate": "2024-01-19 19:09:06.111043",
       "status": "pending",
       "userId": "c62f"
@@ -172,6 +188,22 @@
       "id": "698f",
       "name": "Water",
       "amount": 235.7,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "d34a",
+      "name": "Electric",
+      "amount": 895.7,
+      "dueDate": "2024-01-26 15:14:25.009494",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "4e07",
+      "name": "Internet",
+      "amount": 999.7,
       "dueDate": "2024-01-19 19:09:06.111043",
       "status": "completed",
       "userId": "c62f"
