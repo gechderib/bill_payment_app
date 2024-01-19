@@ -10,7 +10,6 @@ class AuthProvider extends ChangeNotifier {
   var uiProvider = UiServiceProvider();
 
   Future createUser(UserModel user) async {
-    uiProvider.changeIsLoging(true);
     var header = <String, String>{
       'content-type': 'application/json',
       // 'x-access-token': '',
@@ -32,7 +31,6 @@ class AuthProvider extends ChangeNotifier {
       if (response.statusCode == 201) {
         await uiProvider.showToast(
             "Successfully registered", Colors.green, Colors.white);
-        uiProvider.changeIsLoging(true);
         return json.decode(response.body);
       } else if (response.statusCode == 400 || response.statusCode == 404) {
         await uiProvider.showToast("Not registered", Colors.red, Colors.white);
@@ -41,21 +39,11 @@ class AuthProvider extends ChangeNotifier {
         throw Exception("Failed to create user");
       }
     } catch (e) {
-      if (e is SocketException) {
-        await uiProvider.showToast(
-            "Please check your connection", Colors.red, Colors.white);
-      } else if (e is HttpException) {
-        await uiProvider.showToast(
-            "Server error try again", Colors.red, Colors.white);
-      } else if (e is FormatException) {
-        await uiProvider.showToast(
-            "Please check your data", Colors.red, Colors.white);
-      }
-      throw Exception("Failed to create user");
+      handleAuthError(e);
     }
   }
 
-  Future<UserModel> loginUser(
+  Future loginUser(
     LoginModel loginInfo,
   ) async {
     var header = <String, String>{
@@ -73,35 +61,32 @@ class AuthProvider extends ChangeNotifier {
         if (users.isNotEmpty) {
           await uiProvider.showToast(
               "Login successful", Colors.green, Colors.white);
-          uiProvider.changeIsLoging(false);
-
           return UserModel.fromJson(users[0]);
         } else {
           await uiProvider.showToast(
               "Please register first", Colors.red, Colors.white);
-          uiProvider.changeIsLoging(false);
-
           throw Exception('User not found');
         }
       } else {
-        uiProvider.changeIsLoging(false);
-
         throw Exception("Failed to login user");
       }
     } catch (e) {
-      if (e is SocketException) {
-        await uiProvider.showToast(
-            "Please check your connection", Colors.red, Colors.white);
-      } else if (e is HttpException) {
-        await uiProvider.showToast(
-            "Server error try again", Colors.red, Colors.white);
-      } else if (e is FormatException) {
-        await uiProvider.showToast(
-            "Please check your data", Colors.red, Colors.white);
-      }
-      uiProvider.changeIsLoging(false);
-      throw Exception('Failed to retrieve user');
+      handleAuthError(e);
     }
+  }
+
+  void handleAuthError(dynamic e) async {
+    if (e is SocketException) {
+      await uiProvider.showToast(
+          "Please check your connection", Colors.red, Colors.white);
+    } else if (e is HttpException) {
+      await uiProvider.showToast(
+          "Server error, please try again", Colors.red, Colors.white);
+    } else if (e is FormatException) {
+      await uiProvider.showToast(
+          "Please check your data", Colors.red, Colors.white);
+    }
+    throw Exception('Failed to auth user');
   }
 
   Future<UserModel> checkUserExistence(UserModel user) async {

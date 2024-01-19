@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:billpayment/models/user.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -37,7 +38,7 @@ class AuthInfo extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future addloginUserInfo(Map<String, dynamic> user) async {
+  Future addloginUserInfo(UserModel user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool result = await prefs.setString("user", jsonEncode(user));
   }

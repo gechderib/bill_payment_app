@@ -13,14 +13,13 @@ import 'package:provider/provider.dart';
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});
 
-  void handelRegistration(BuildContext context) {}
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final authInfo = Provider.of<AuthInfo>(context);
     final authProvider = Provider.of<AuthProvider>(context);
-    final uiProvider = Provider.of<UiServiceProvider>(context);
+    final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
+
     var registrationInfo = {
       "fullName": authInfo.fullName,
       "email": authInfo.email,

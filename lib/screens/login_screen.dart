@@ -85,7 +85,11 @@ class LoginScreen extends StatelessWidget {
                           var user = await authProvider.loginUser(
                             LoginModel.fromJson(loginUserInfo),
                           );
+                          if (user != null) {
+                            print(user.id);
+                          }
                           uiProvider.changeIsLoging(false);
+                          // await authInfo.addloginUserInfo(user);
                         },
                         horizontalMargin: 0,
                         verticalMargin: 0,
@@ -105,16 +109,18 @@ class LoginScreen extends StatelessWidget {
                             child: Text(""),
                           ),
                           Expanded(
-                              flex: 3,
-                              child: Container(
-                                height: 1,
-                                color: const Color.fromARGB(255, 122, 122, 122),
-                              )),
+                            flex: 3,
+                            child: Container(
+                              height: 1,
+                              color: const Color.fromARGB(255, 122, 122, 122),
+                            ),
+                          ),
                           const Expanded(
-                              child: Text(
-                            "    or",
-                            style: TextStyle(color: Color(0XFF7F8E9D)),
-                          )),
+                            child: Text(
+                              "    or",
+                              style: TextStyle(color: Color(0XFF7F8E9D)),
+                            ),
+                          ),
                           Expanded(
                               flex: 3,
                               child: Container(
