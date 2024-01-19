@@ -1,5 +1,8 @@
+import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/constants/const.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
+import 'package:billpayment/routes/routes.dart';
+import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,7 +21,6 @@ class _SettingScreenState extends State<SettingScreen> {
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiServiceProvider>(context);
-
     return Scaffold(
       body: Column(
         children: [
@@ -118,9 +120,9 @@ class _SettingScreenState extends State<SettingScreen> {
                           .toList(),
                     ),
                   ),
-                  SizedBox(height: 16.0),
+                  const SizedBox(height: 16.0),
                   CustomButton(
-                    horizontalMargin: 0,
+                    horizontalMargin: 70,
                     verticalMargin: 0,
                     btnName: const Text(
                       "Logout",
@@ -141,6 +143,9 @@ class _SettingScreenState extends State<SettingScreen> {
 }
 
 void _showLogoutConfirmationDialog(BuildContext context) {
+  final authInfo = Provider.of<AuthInfo>(context, listen: false);
+  final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -152,22 +157,25 @@ void _showLogoutConfirmationDialog(BuildContext context) {
             onPressed: () {
               Navigator.of(context).pop();
             },
-            child: const Text('Cancel'),
+            child: const Text(
+              'Cancel',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
           TextButton(
             onPressed: () {
-              _logout();
+              authInfo.logedOutUser();
+              Navigator.of(context).pushNamed(RouteGenerator.loginScreen);
+              uiProvider.showToast(
+                  "Successfully loged out", Colors.green, Colors.white);
             },
-            child: const Text('Logout'),
+            child: const Text(
+              'Logout',
+              style: TextStyle(color: Colors.black),
+            ),
           ),
         ],
       );
     },
   );
-}
-
-void _logout() {
-  // Perform logout actions here
-  print('User logged out');
-  // Navigate to login screen or perform other necessary actions
 }

@@ -1,11 +1,25 @@
 {
   "users": [
     {
-      "id": "d159",
-      "fullName": "riri",
-      "email": "fjru",
-      "phone": "ruru",
-      "password": ""
+      "id": "c62f",
+      "fullName": "Getachew Derib",
+      "email": "gech@gmail.xom",
+      "phone": "111",
+      "password": "111"
+    },
+    {
+      "id": "4e7c",
+      "fullName": "Yordanos Moges",
+      "email": "yord@gmail.com",
+      "phone": "222",
+      "password": "222"
+    },
+    {
+      "id": "c833",
+      "fullName": "Solomon Kassahun",
+      "email": "sol@gmail.com",
+      "phone": "000",
+      "password": "000"
     }
   ],
   "login": [],
@@ -16,7 +30,23 @@
       "amout": 895.7,
       "dueDate": "July 12 2023",
       "status": "pending",
-      "user_id": 1
+      "userId": "c62f"
+    },
+    {
+      "id": "2",
+      "name": "Water",
+      "amout": 235.7,
+      "dueDate": "July 12 2023",
+      "status": "pending",
+      "userId": "c62f"
+    },
+    {
+      "id": "2",
+      "name": "Internet",
+      "amout": 999.9,
+      "dueDate": "July 12 2023",
+      "status": "pending",
+      "userId": "4e7c"
     }
   ],
   "transactions": [

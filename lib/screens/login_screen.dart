@@ -32,6 +32,10 @@ class LoginScreen extends StatelessWidget {
           LoginModel.fromJson(loginUserInfo),
         );
         if (user != null) {
+          await authInfo.addloginUserInfo(user);
+          await authInfo.getLoginUser();
+          print(authInfo.logedUserInfo);
+          uiProvider.changeIndex(0);
           Navigator.of(context).pushNamed(RouteGenerator.homeScreen);
         } else {
           print('User login failed.');
@@ -97,9 +101,7 @@ class LoginScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          const SizedBox(
-                            height: 10,
-                          ),
+                          const SizedBox(height: 10),
                           CustomButton(
                             onPress: () => handelLogin(),
                             horizontalMargin: 0,

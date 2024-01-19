@@ -1,3 +1,4 @@
+import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/constants/const.dart';
 import 'package:billpayment/constants/styles/decoration.dart';
 import 'package:billpayment/custom_widgets/bill_summary.dart';
@@ -16,6 +17,7 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final uiProvider = Provider.of<UiServiceProvider>(context);
+    final authInfo = Provider.of<AuthInfo>(context);
 
     return Scaffold(
       drawer: const BillPaymentDrawer(),
@@ -47,9 +49,10 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Container(
-                  child: const Text(
-                    "Welcome Getachew",
-                    style: TextStyle(
+                  child: Text(
+                    "Welcome ${authInfo.logedUserInfo["fullName"]}"
+                        .substring(0, 15),
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 20,
                       fontWeight: FontWeight.w700,
@@ -113,7 +116,7 @@ class HomeScreen extends StatelessWidget {
                       context,
                       Bill(
                           name: "bill one",
-                          amout: 450,
+                          amount: 450,
                           dueDate: DateTime.now(),
                           status: false,
                           userId: "userid_8484"),
@@ -169,7 +172,7 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Text('Enter the payment amount: ${bill.amout}'),
+            Text('Enter the payment amount: ${bill.amount}'),
             const SizedBox(height: 10),
             CustomTextInputField(
                 onValueChnage: (value) {},

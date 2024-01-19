@@ -40,7 +40,7 @@ class AuthInfo extends ChangeNotifier {
 
   Future addloginUserInfo(UserModel user) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    bool result = await prefs.setString("user", jsonEncode(user));
+    bool result = await prefs.setString("user", jsonEncode(user.toJson()));
   }
 
   Future logedOutUser() async {

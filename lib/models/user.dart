@@ -1,7 +1,15 @@
-class UserModel {
-  UserModel(
-      {this.fullName, this.email, required this.phone, required this.password});
+import 'package:uuid/uuid.dart';
 
+class UserModel {
+  UserModel({
+    this.id,
+    this.fullName,
+    this.email,
+    required this.phone,
+    required this.password,
+  });
+
+  String? id;
   String? fullName;
   String? email;
   String phone;
@@ -9,10 +17,20 @@ class UserModel {
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
     return UserModel(
+        id: json['id'],
         fullName: json["fullName"],
         email: json["email"],
         phone: json["phone"],
         password: json["password"]);
+  }
+  Map<String, dynamic> toJson() {
+    return {
+      "id": id,
+      "fullName": fullName,
+      "email": email,
+      "phone": phone,
+      "password": password
+    };
   }
 }
 
