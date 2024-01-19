@@ -1,7 +1,10 @@
+import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/custom_widgets/payment_history_cards.dart';
+import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shimmer/shimmer.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
   TransactionHistoryScreen({super.key});
@@ -27,6 +30,8 @@ class TransactionHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiServiceProvider>(context);
+    final authInfo = Provider.of<AuthInfo>(context);
+    final transactionProvider = Provider.of<TransactionProvider>(context);
     return Scaffold(
       body: Column(
         children: [
@@ -105,17 +110,43 @@ class TransactionHistoryScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: transactions.length,
-              itemBuilder: (context, index) {
-                final transaction = transactions[index];
-                return PaymentHistoryListTile(
-                  billAmount: 455,
-                  billName: transaction,
-                  dueDate: "May 23 2023",
-                  onClick: () => {uiProvider.changeIndex(5)},
-                  status: Icons.check,
-                );
+            child: FutureBuilder(
+              future: transactionProvider
+                  .getAllTransactions(authInfo.logedUserInfo["id"]),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      final transaction = snapshot.data[index];
+                      return PaymentHistoryListTile(
+                        billAmount: transaction["amount"],
+                        billName: transaction["name"],
+                        dueDate: transaction["dueDate"],
+                        onClick: () => {uiProvider.changeIndex(5)},
+                        status: transaction["status"] == "pending"
+                            ? Icons.pending_actions
+                            : Icons.check,
+                      );
+                    },
+                  );
+                }
+                return Shimmer.fromColors(
+                    baseColor: Colors.grey[300]!,
+                    highlightColor: Colors.grey[100]!,
+                    child: ListTile(
+                        leading: const CircleAvatar(
+                          backgroundColor: Colors.white,
+                          radius: 25,
+                        ),
+                        title: Container(
+                          height: 16,
+                          color: Colors.white,
+                        ),
+                        subtitle: Container(
+                          height: 12,
+                          color: Colors.white,
+                        )));
               },
             ),
           ),

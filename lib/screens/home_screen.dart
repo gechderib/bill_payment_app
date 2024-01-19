@@ -89,21 +89,28 @@ class HomeScreen extends StatelessWidget {
           Expanded(
               flex: 3,
               child: FutureBuilder(
-                  future: billProvider.getUserBills(),
+                  future:
+                      billProvider.getUserBills(authInfo.logedUserInfo["id"]),
                   builder: (context, AsyncSnapshot snapshot) {
                     if (snapshot.hasData) {
-                      // var userData = snapshot.data.
-                      return Text("hello man");
+                      double totalOutStanding = 0;
+                      int pendingBills = 0;
+                      String DueDate = "";
+
+                      for (var bill in snapshot.data) {
+                        if (bill["status"] == "pending") {
+                          pendingBills++;
+                          totalOutStanding += bill["amount"];
+                        }
+                      }
+                      return BillSummary(
+                        totalOutstanding: totalOutStanding,
+                        pendingBilles: pendingBills,
+                        dueDate: "14 Sept 2024",
+                      );
                     }
                     return Text("data");
-                  })
-
-              // BillSummary(
-              //   totalOutstanding: 58588,
-              //   pendingBilles: 231,
-              //   dueDate: "14 Sept 2024",
-              // ),
-              ),
+                  })),
           Container(
             margin: const EdgeInsets.only(left: 10),
             child: const Align(
@@ -118,36 +125,41 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-              flex: 3,
-              child: FutureBuilder(
-                  future: billProvider.getUserBills(),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      return ListView.builder(
-                        itemCount: snapshot.data.length,
-                        itemBuilder: (context, index) {
-                          return UpcomingBill(
-                            onClick: () => {
-                              _showPaymentDialog(
-                                context,
-                                Bill(
-                                    id: snapshot.data[index]["id"],
-                                    name: snapshot.data[index]["name"],
-                                    amount: snapshot.data[index]["amount"],
-                                    dueDate: DateTime.now(),
-                                    status: BillStatus.pending,
-                                    userId: authInfo.logedUserInfo["id"]),
-                              ),
-                            },
-                            billAmount: snapshot.data[index]["amount"],
-                            billName: snapshot.data[index]["name"],
-                            dueDate: snapshot.data[index]["dueDate"],
-                          );
+            flex: 3,
+            child: FutureBuilder(
+              future: billProvider.getUserBills(authInfo.logedUserInfo["id"]),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  List<dynamic> pendingBills = snapshot.data
+                      .where((userBill) => userBill["status"] == "pending")
+                      .toList();
+                  return ListView.builder(
+                    itemCount: pendingBills.length,
+                    itemBuilder: (context, index) {
+                      return UpcomingBill(
+                        onClick: () => {
+                          _showPaymentDialog(
+                            context,
+                            Bill(
+                                id: pendingBills[index]["id"],
+                                name: pendingBills[index]["name"],
+                                amount: pendingBills[index]["amount"],
+                                dueDate: DateTime.now(),
+                                status: pendingBills[index]["status"],
+                                userId: authInfo.logedUserInfo["id"]),
+                          ),
                         },
+                        billAmount: pendingBills[index]["amount"],
+                        billName: pendingBills[index]["name"],
+                        dueDate: pendingBills[index]["dueDate"],
                       );
-                    }
-                    return Text("loasing data");
-                  })),
+                    },
+                  );
+                }
+                return Text("loasing data");
+              },
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(left: 10, top: 5),
             child: const Align(
@@ -164,7 +176,8 @@ class HomeScreen extends StatelessWidget {
           Expanded(
             flex: 4,
             child: FutureBuilder(
-              future: transactionProvider.getAllTransactions(),
+              future: transactionProvider
+                  .getAllTransactions(authInfo.logedUserInfo["id"]),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   return ListView.builder(
@@ -175,10 +188,9 @@ class HomeScreen extends StatelessWidget {
                         billAmount: snapshot.data[index]["amount"],
                         billName: snapshot.data[index]["name"],
                         dueDate: snapshot.data[index]["dueDate"],
-                        status:
-                            snapshot.data[index]["status"] == BillStatus.pending
-                                ? Icons.pending
-                                : Icons.check,
+                        status: snapshot.data[index]["status"] == "pending"
+                            ? Icons.pending
+                            : Icons.check,
                       );
                     },
                   );

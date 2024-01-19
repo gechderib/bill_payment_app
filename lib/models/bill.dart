@@ -14,7 +14,7 @@ class Bill {
   String name;
   double amount;
   DateTime dueDate;
-  BillStatus status;
+  String status;
   String userId;
 
   factory Bill.fromJson(Map<String, dynamic> json) {

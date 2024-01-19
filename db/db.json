@@ -45,8 +45,8 @@
       "name": "Internet",
       "amount": 999.9,
       "dueDate": "July 12 2023",
-      "status": "pending",
-      "userId": "4e7c"
+      "status": "com",
+      "userId": "c833"
     }
   ],
   "transactions": [
@@ -56,7 +56,15 @@
       "amount": 895.7,
       "dueDate": "July 12 2023",
       "status": "pending",
-      "userId": 1
+      "userId": "c62f"
+    },
+    {
+      "id": "1",
+      "name": "Water",
+      "amount": 654.7,
+      "dueDate": "Sept 23 2023",
+      "status": "completed",
+      "userId": "4e7c"
     }
   ]
 }

@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/constants/variables/const.dart';
 import 'package:billpayment/models/user.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
@@ -123,7 +123,7 @@ class AuthProvider extends ChangeNotifier {
 }
 
 class BillProvider extends ChangeNotifier {
-  Future getUserBills() async {
+  Future getUserBills(String userId) async {
     var header = <String, String>{
       'content-type': 'application/json',
       // 'X-access-token': '43',
@@ -134,7 +134,11 @@ class BillProvider extends ChangeNotifier {
         headers: header,
       );
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        List<dynamic> userBills = json
+            .decode(response.body)
+            .where((userBill) => userBill["userId"] == userId)
+            .toList();
+        return userBills;
       } else if (response.statusCode == 400) {
         return json.decode(response.body);
       }
@@ -188,7 +192,7 @@ class BillProvider extends ChangeNotifier {
 }
 
 class TransactionProvider extends ChangeNotifier {
-  Future getAllTransactions() async {
+  Future getAllTransactions(String userId) async {
     try {
       var header = <String, String>{
         'content-type': 'application/json',
@@ -197,7 +201,11 @@ class TransactionProvider extends ChangeNotifier {
       final response =
           await http.get(Uri.parse("$BASE_URL/transactions"), headers: header);
       if (response.statusCode == 200) {
-        return json.decode(response.body);
+        List<dynamic> userTransactions = json
+            .decode(response.body)
+            .where((userBill) => userBill["userId"] == userId)
+            .toList();
+        return userTransactions;
       } else if (response.statusCode == 400) {
         return json.decode(response.body);
       }

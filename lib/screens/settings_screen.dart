@@ -1,5 +1,5 @@
 import 'package:billpayment/authentication/auth_info.dart';
-import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/constants/variables/const.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/routes/routes.dart';
 import 'package:billpayment/service/api_service.dart';
