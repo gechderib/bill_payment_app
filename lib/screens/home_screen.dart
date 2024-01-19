@@ -1,12 +1,14 @@
 import 'package:billpayment/authentication/auth_info.dart';
-import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/constants/variables/const.dart';
 import 'package:billpayment/constants/styles/decoration.dart';
+import 'package:billpayment/constants/variables/enums.dart';
 import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
 import 'package:billpayment/custom_widgets/payment_history_cards.dart';
 import 'package:billpayment/custom_widgets/upcoming_bill.dart';
 import 'package:billpayment/models/bill.dart';
+import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,10 +17,10 @@ class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final uiProvider = Provider.of<UiServiceProvider>(context);
-    final authInfo = Provider.of<AuthInfo>(context);
-
+    final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
+    final authInfo = Provider.of<AuthInfo>(context, listen: false);
+    final billProvider = Provider.of<BillProvider>(context, listen: false);
+    final transactionProvider = Provider.of<TransactionProvider>(context);
     return Scaffold(
       drawer: const BillPaymentDrawer(),
       body: Column(
@@ -84,14 +86,24 @@ class HomeScreen extends StatelessWidget {
               ],
             ),
           ),
-          const Expanded(
-            flex: 3,
-            child: BillSummary(
-              totalOutstanding: 58588,
-              pendingBilles: 231,
-              dueDate: "14 Sept 2024",
-            ),
-          ),
+          Expanded(
+              flex: 3,
+              child: FutureBuilder(
+                  future: billProvider.getUserBills(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      // var userData = snapshot.data.
+                      return Text("hello man");
+                    }
+                    return Text("data");
+                  })
+
+              // BillSummary(
+              //   totalOutstanding: 58588,
+              //   pendingBilles: 231,
+              //   dueDate: "14 Sept 2024",
+              // ),
+              ),
           Container(
             margin: const EdgeInsets.only(left: 10),
             child: const Align(
@@ -106,29 +118,36 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-            flex: 3,
-            child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-                return UpcomingBill(
-                  onClick: () => {
-                    _showPaymentDialog(
-                      context,
-                      Bill(
-                          name: "bill one",
-                          amount: 450,
-                          dueDate: DateTime.now(),
-                          status: false,
-                          userId: "userid_8484"),
-                    ),
-                  },
-                  billAmount: 3000,
-                  billName: "Electric",
-                  dueDate: "Sept 13 2024",
-                );
-              },
-            ),
-          ),
+              flex: 3,
+              child: FutureBuilder(
+                  future: billProvider.getUserBills(),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return ListView.builder(
+                        itemCount: snapshot.data.length,
+                        itemBuilder: (context, index) {
+                          return UpcomingBill(
+                            onClick: () => {
+                              _showPaymentDialog(
+                                context,
+                                Bill(
+                                    id: snapshot.data[index]["id"],
+                                    name: snapshot.data[index]["name"],
+                                    amount: snapshot.data[index]["amount"],
+                                    dueDate: DateTime.now(),
+                                    status: BillStatus.pending,
+                                    userId: authInfo.logedUserInfo["id"]),
+                              ),
+                            },
+                            billAmount: snapshot.data[index]["amount"],
+                            billName: snapshot.data[index]["name"],
+                            dueDate: snapshot.data[index]["dueDate"],
+                          );
+                        },
+                      );
+                    }
+                    return Text("loasing data");
+                  })),
           Container(
             margin: const EdgeInsets.only(left: 10, top: 5),
             child: const Align(
@@ -144,19 +163,30 @@ class HomeScreen extends StatelessWidget {
           ),
           Expanded(
             flex: 4,
-            child: ListView.builder(
-              itemCount: 15,
-              itemBuilder: (context, index) {
-                return PaymentHistoryListTile(
-                  onClick: () => {uiProvider.changeIndex(5)},
-                  billAmount: 3000,
-                  billName: "Electric",
-                  dueDate: "Sept 13 2024",
-                  status: Icons.check,
-                );
+            child: FutureBuilder(
+              future: transactionProvider.getAllTransactions(),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  return ListView.builder(
+                    itemCount: snapshot.data.length,
+                    itemBuilder: (context, index) {
+                      return PaymentHistoryListTile(
+                        onClick: () => {uiProvider.changeIndex(5)},
+                        billAmount: snapshot.data[index]["amount"],
+                        billName: snapshot.data[index]["name"],
+                        dueDate: snapshot.data[index]["dueDate"],
+                        status:
+                            snapshot.data[index]["status"] == BillStatus.pending
+                                ? Icons.pending
+                                : Icons.check,
+                      );
+                    },
+                  );
+                }
+                return Text("loading");
               },
             ),
-          )
+          ),
         ],
       ),
     );
@@ -168,7 +198,7 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: const Text('Payment Confirmation'),
+        title: Text('Payment Confirmation ${bill.status}'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

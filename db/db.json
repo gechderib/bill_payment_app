@@ -27,7 +27,7 @@
     {
       "id": "1",
       "name": "Electric",
-      "amout": 895.7,
+      "amount": 895.7,
       "dueDate": "July 12 2023",
       "status": "pending",
       "userId": "c62f"
@@ -35,15 +35,15 @@
     {
       "id": "2",
       "name": "Water",
-      "amout": 235.7,
+      "amount": 235.7,
       "dueDate": "July 12 2023",
       "status": "pending",
       "userId": "c62f"
     },
     {
-      "id": "2",
+      "id": "3",
       "name": "Internet",
-      "amout": 999.9,
+      "amount": 999.9,
       "dueDate": "July 12 2023",
       "status": "pending",
       "userId": "4e7c"
@@ -53,10 +53,10 @@
     {
       "id": "1",
       "name": "Electric",
-      "amout": 895.7,
+      "amount": 895.7,
       "dueDate": "July 12 2023",
       "status": "pending",
-      "user_id": 1
+      "userId": 1
     }
   ]
 }

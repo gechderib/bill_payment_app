@@ -1,3 +1,5 @@
+import 'package:billpayment/constants/variables/enums.dart';
+
 class Bill {
   Bill({
     this.id,
@@ -12,7 +14,7 @@ class Bill {
   String name;
   double amount;
   DateTime dueDate;
-  bool status;
+  BillStatus status;
   String userId;
 
   factory Bill.fromJson(Map<String, dynamic> json) {

@@ -23,6 +23,7 @@ void main() async {
           ChangeNotifierProvider(create: (context) => PaymentScreenState()),
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => BillProvider()),
+          ChangeNotifierProvider(create: (context) => TransactionProvider()),
         ],
         child: const BillPaymentApp(),
       ),

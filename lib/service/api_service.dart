@@ -126,8 +126,7 @@ class BillProvider extends ChangeNotifier {
   Future getUserBills() async {
     var header = <String, String>{
       'content-type': 'application/json',
-      'X-RapidAPI-Key': '34e56ba814msh455386714d314d5p19b5fajsnd374fd760871',
-      'X-RapidAPI-Host': 'user-auth2.p.rapidapi.com'
+      // 'X-access-token': '43',
     };
     try {
       final response = await http.get(
@@ -148,8 +147,7 @@ class BillProvider extends ChangeNotifier {
     try {
       var header = <String, String>{
         'content-type': 'application/json',
-        'X-RapidAPI-Key': '34e56ba814msh455386714d314d5p19b5fajsnd374fd760871',
-        'X-RapidAPI-Host': 'user-auth2.p.rapidapi.com'
+        // 'X-access-token': '43',
       };
       final response = await http.get(
         Uri.parse("$BASE_URL/bills/$bill_id"),
@@ -169,8 +167,7 @@ class BillProvider extends ChangeNotifier {
     try {
       var header = <String, String>{
         'content-type': 'application/json',
-        'X-RapidAPI-Key': '34e56ba814msh455386714d314d5p19b5fajsnd374fd760871',
-        'X-RapidAPI-Host': 'user-auth2.p.rapidapi.com'
+        // 'X-acess-token': 'sampelto',
       };
       final response = await http.post(
         Uri.parse(
@@ -195,12 +192,11 @@ class TransactionProvider extends ChangeNotifier {
     try {
       var header = <String, String>{
         'content-type': 'application/json',
-        'X-RapidAPI-Key': '34e56ba814msh455386714d314d5p19b5fajsnd374fd760871',
-        'X-RapidAPI-Host': 'user-auth2.p.rapidapi.com'
+        // 'X-access-toek': '5432',
       };
       final response =
           await http.get(Uri.parse("$BASE_URL/transactions"), headers: header);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return json.decode(response.body);
       } else if (response.statusCode == 400) {
         return json.decode(response.body);
@@ -210,12 +206,11 @@ class TransactionProvider extends ChangeNotifier {
     }
   }
 
-  Future getOneTransaction(transaction_id) async {
+  Future getOneTransaction(String transaction_id) async {
     try {
       var header = <String, String>{
         'content-type': 'application/json',
-        'X-RapidAPI-Key': '34e56ba814msh455386714d314d5p19b5fajsnd374fd760871',
-        'X-RapidAPI-Host': 'user-auth2.p.rapidapi.com'
+        // 'X-access-token': '4884',
       };
       final response = await http.get(
           Uri.parse("$BASE_URL/transaaction/$transaction_id"),
