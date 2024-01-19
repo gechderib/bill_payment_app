@@ -75,7 +75,6 @@ var passwordFormFieldDecoration = InputDecoration(
       Radius.circular(6),
     ),
   ),
-  hintText: "Password",
   hintStyle: GoogleFonts.lato(
     textStyle: const TextStyle(
       fontSize: 13,

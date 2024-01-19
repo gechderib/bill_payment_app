@@ -28,9 +28,7 @@ class PaymentScreen extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 12),
                   child: Builder(
                     builder: (ctx) => IconButton(
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      },
+                      onPressed: () {},
                       icon: const Icon(
                         Icons.arrow_back_ios,
                         color: Colors.white,

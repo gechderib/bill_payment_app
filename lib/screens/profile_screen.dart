@@ -1,5 +1,7 @@
 import 'package:billpayment/custom_widgets/custom_button.dart';
+import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,6 +19,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController currentPasswordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final uiProvider = Provider.of<UiServiceProvider>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -36,7 +40,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   child: Builder(
                     builder: (ctx) => IconButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        uiProvider.changeIndex(uiProvider.prevActiveIndex);
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios,

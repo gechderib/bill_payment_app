@@ -11,6 +11,8 @@ class UiServiceProvider extends ChangeNotifier {
   int prevActiveIndex = 0;
   int activeTabIndex = 0;
 
+  double safeAreaHeight = 0;
+
   Future<void> loadContent(BuildContext context) async {
     await Future.delayed(Duration(seconds: 2));
     _isLoading = false;

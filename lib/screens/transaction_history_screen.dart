@@ -46,7 +46,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                   child: Builder(
                     builder: (ctx) => IconButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        uiProvider.changeIndex(uiProvider.prevActiveIndex);
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios,

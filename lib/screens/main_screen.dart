@@ -25,82 +25,84 @@ class MainScreen extends StatelessWidget {
       ProfileScreen(),
       BillDetailScreen(),
     ];
-    return Scaffold(
-      drawer: BillPaymentDrawer(),
-      body: Center(
-        child: _widgetOptions.elementAt(uiProvider.activeTabIndex),
-      ),
-      floatingActionButton: Visibility(
-        visible: true,
-        child: Container(
-          width: 72,
-          height: 72,
-          decoration: BoxDecoration(
-              color: Colors.transparent,
-              borderRadius: BorderRadius.circular(36)),
-          child: Stack(
-            children: [
-              Positioned(
-                top: 8,
-                left: 8,
-                child: Container(
-                  width: 56,
-                  height: 56,
-                  decoration: BoxDecoration(
-                    gradient: const LinearGradient(
-                      colors: [Colors.blue, Colors.green],
+    return SafeArea(
+      child: Scaffold(
+        drawer: BillPaymentDrawer(),
+        body: Center(
+          child: _widgetOptions.elementAt(uiProvider.activeTabIndex),
+        ),
+        floatingActionButton: Visibility(
+          visible: true,
+          child: Container(
+            width: 72,
+            height: 72,
+            decoration: BoxDecoration(
+                color: Colors.transparent,
+                borderRadius: BorderRadius.circular(36)),
+            child: Stack(
+              children: [
+                Positioned(
+                  top: 8,
+                  left: 8,
+                  child: Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Colors.blue, Colors.green],
+                      ),
+                      borderRadius: BorderRadius.circular(36),
                     ),
-                    borderRadius: BorderRadius.circular(36),
+                    child: IconButton(
+                      color: Colors.white,
+                      icon: const Icon(Icons.currency_exchange),
+                      onPressed: () {
+                        uiProvider.changeIndex(2);
+                      },
+                    ),
                   ),
-                  child: IconButton(
-                    color: Colors.white,
-                    icon: const Icon(Icons.currency_exchange),
-                    onPressed: () {
-                      uiProvider.changeIndex(2);
-                    },
-                  ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      bottomNavigationBar: BottomAppBar(
-        height: BOTTOM_SHEET_HEIGHT,
-        shape: const CircularNotchedRectangle(),
-        color: Color.fromARGB(255, 45, 159, 204),
-        child: Container(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              CustomBottomMenu(
-                onClick: () => {uiProvider.changeIndex(0)},
-                icon: Icons.home,
-                menuName: "Home",
-              ),
-              CustomBottomMenu(
-                onClick: () => {uiProvider.changeIndex(1)},
-                icon: Icons.swap_horizontal_circle,
-                menuName: "Transaction",
-              ),
-              // CustomBottomMenu(
-              //   onClick: () => {uiProvider.changeIndex(2)},
-              //   icon: Icons.payment,
-              //   menuName: "Payment",
-              // ),
-              Container(),
-              CustomBottomMenu(
-                onClick: () => {uiProvider.changeIndex(3)},
-                icon: Icons.settings,
-                menuName: "Setting",
-              ),
-              CustomBottomMenu(
-                onClick: () => {uiProvider.changeIndex(4)},
-                icon: Icons.person,
-                menuName: "Account",
-              ),
-            ],
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        bottomNavigationBar: BottomAppBar(
+          height: BOTTOM_SHEET_HEIGHT,
+          shape: const CircularNotchedRectangle(),
+          color: Color.fromARGB(255, 45, 159, 204),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                CustomBottomMenu(
+                  onClick: () => {uiProvider.changeIndex(0)},
+                  icon: Icons.home,
+                  menuName: "Home",
+                ),
+                CustomBottomMenu(
+                  onClick: () => {uiProvider.changeIndex(1)},
+                  icon: Icons.swap_horizontal_circle,
+                  menuName: "Transaction",
+                ),
+                // CustomBottomMenu(
+                //   onClick: () => {uiProvider.changeIndex(2)},
+                //   icon: Icons.payment,
+                //   menuName: "Payment",
+                // ),
+                Container(),
+                CustomBottomMenu(
+                  onClick: () => {uiProvider.changeIndex(3)},
+                  icon: Icons.settings,
+                  menuName: "Setting",
+                ),
+                CustomBottomMenu(
+                  onClick: () => {uiProvider.changeIndex(4)},
+                  icon: Icons.person,
+                  menuName: "Account",
+                ),
+              ],
+            ),
           ),
         ),
       ),

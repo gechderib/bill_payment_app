@@ -1,6 +1,8 @@
 import 'package:billpayment/constants/const.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
+import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SettingScreen extends StatefulWidget {
   const SettingScreen({super.key});
@@ -15,6 +17,8 @@ class _SettingScreenState extends State<SettingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final uiProvider = Provider.of<UiServiceProvider>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -34,7 +38,7 @@ class _SettingScreenState extends State<SettingScreen> {
                   child: Builder(
                     builder: (ctx) => IconButton(
                       onPressed: () {
-                        Navigator.of(context).pop();
+                        uiProvider.changeIndex(uiProvider.prevActiveIndex);
                       },
                       icon: const Icon(
                         Icons.arrow_back_ios,

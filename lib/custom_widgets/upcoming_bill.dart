@@ -18,16 +18,15 @@ class UpcomingBill extends StatelessWidget {
       onTap: () => onClick(),
       child: Column(
         children: [
-          const SizedBox(height: 10.0),
           Container(
             margin:
-                const EdgeInsets.only(left: 10, right: 10, top: 1, bottom: 1),
+                const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
             decoration: const BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.bottomLeft,
                 end: Alignment.topRight,
                 colors: [
-                  Color.fromARGB(255, 225, 228, 230),
+                  Color.fromARGB(255, 230, 232, 233),
                   Color.fromARGB(255, 230, 232, 233)
                 ],
               ),
@@ -38,8 +37,8 @@ class UpcomingBill extends StatelessWidget {
             ),
             child: ListTile(
               onTap: () => onClick(),
-              contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+              // contentPadding:
+              //     const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
               leading: Text(
                 billName,
               ),
@@ -53,7 +52,7 @@ class UpcomingBill extends StatelessWidget {
                 onPressed: () => {onClick()},
                 child: const Text(
                   "Pay",
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Color.fromARGB(255, 116, 116, 116)),
                 ),
               ),
             ),

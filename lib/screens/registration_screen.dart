@@ -27,6 +27,25 @@ class RegistrationScreen extends StatelessWidget {
       "password": authInfo.password
     };
 
+    void handelRegister() async {
+      try {
+        uiProvider.changeIsLoging(true);
+        final user = await authProvider.createUser(
+          UserModel.fromJson(registrationInfo),
+        );
+
+        if (user != null) {
+          Navigator.of(context).pushNamed(RouteGenerator.loginScreen);
+        } else {
+          print('User creation failed.');
+        }
+      } catch (error) {
+        print('Error during user creation: $error');
+      } finally {
+        uiProvider.changeIsLoging(false);
+      }
+    }
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -48,7 +67,7 @@ class RegistrationScreen extends StatelessWidget {
                         onValueChnage: (value) {
                           authInfo.fullName = value;
                         },
-                        hint: "full name",
+                        hint: "Enter full name",
                         decoration: textFormFieldDecoration,
                       ),
                       const SizedBox(
@@ -59,18 +78,18 @@ class RegistrationScreen extends StatelessWidget {
                         onValueChnage: (value) {
                           authInfo.email = value;
                         },
-                        hint: "email",
+                        hint: "Enter email address",
                         decoration: textFormFieldDecoration,
                       ),
                       const SizedBox(
                         height: 10,
                       ),
-                      const Label(label: "Email/Phone number"),
+                      const Label(label: "Phone number"),
                       CustomTextInputField(
                         onValueChnage: (value) {
                           authInfo.phone = value;
                         },
-                        hint: "email/phone",
+                        hint: "Enter phone",
                         decoration: textFormFieldDecoration,
                       ),
                       const SizedBox(
@@ -81,7 +100,7 @@ class RegistrationScreen extends StatelessWidget {
                           onValueChnage: (value) {
                             authInfo.password = value;
                           },
-                          hint: "password",
+                          hint: "Enter password",
                           decoration: passwordFormFieldDecoration),
                       const SizedBox(
                         height: 15,
@@ -91,7 +110,7 @@ class RegistrationScreen extends StatelessWidget {
                           onValueChnage: (value) {
                             authInfo.password = value;
                           },
-                          hint: "confirm password",
+                          hint: "Confirm password",
                           decoration: passwordFormFieldDecoration),
                       const SizedBox(
                         height: 15,
@@ -100,17 +119,7 @@ class RegistrationScreen extends StatelessWidget {
                         height: 10,
                       ),
                       CustomButton(
-                        onPress: () async {
-                          uiProvider.changeIsLoging(true);
-                          final user = await authProvider.createUser(
-                            UserModel.fromJson(registrationInfo),
-                          );
-                          // print(user);
-                          // Navigator.of(context)
-                          //     .pushNamed(RouteGenerator.loginScreen);
-
-                          uiProvider.changeIsLoging(false);
-                        },
+                        onPress: () => handelRegister(),
                         horizontalMargin: 0,
                         verticalMargin: 0,
                         btnName: Consumer<UiServiceProvider>(

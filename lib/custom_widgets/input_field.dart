@@ -19,18 +19,13 @@ class CustomTextInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
+    return TextField(
       onChanged: (value) {
         onValueChnage(value);
       },
+      cursorColor: Colors.grey,
       keyboardType: textInputType,
       decoration: decoration.copyWith(hintText: hint),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return "Invalid input";
-        }
-        return null;
-      },
     );
   }
 }
@@ -48,32 +43,28 @@ class CustomPasswordInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<UiServiceProvider>(builder: (context, uiProvider, _) {
-      return TextFormField(
-        onChanged: (value) {
-          onValueChnage(value);
-        },
-        obscureText: uiProvider.isObsecure,
-        decoration: decoration.copyWith(
-          suffixIcon: IconButton(
+    return Consumer<UiServiceProvider>(
+      builder: (context, uiProvider, _) {
+        return TextField(
+          onChanged: (value) {
+            onValueChnage(value);
+          },
+          cursorColor: Colors.grey,
+          obscureText: uiProvider.isObsecure,
+          decoration: decoration.copyWith(
+            hintText: hint,
+            suffixIcon: IconButton(
               onPressed: () {
                 uiProvider.obsecureText();
               },
               icon: const Icon(
                 Icons.remove_red_eye,
                 color: Color(0XFF606060),
-              )),
-        ),
-        validator: (value) {
-          if (value == null || value.isEmpty) {
-            return "Password Field cant be empty";
-          }
-          if (value.length < 6) {
-            return "The password must be at least 6 characters";
-          }
-          return null;
-        },
-      );
-    });
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

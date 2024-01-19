@@ -41,7 +41,7 @@ class PaymentHistoryListTile extends StatelessWidget {
             child: ListTile(
               onTap: () => onClick(),
               contentPadding:
-                  const EdgeInsets.symmetric(horizontal: 10, vertical: 2),
+                  const EdgeInsets.symmetric(horizontal: 10, vertical: 1),
               leading: Icon(
                 status,
               ),
