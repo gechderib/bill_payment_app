@@ -1,4 +1,4 @@
-import 'package:billpayment/constants/const.dart';
+import 'package:billpayment/constants/variables/const.dart';
 import 'package:billpayment/custom_widgets/custom_bottom_menu.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
 import 'package:billpayment/screens/bill_detail_screen.dart';

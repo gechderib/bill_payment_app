@@ -1,6 +1,7 @@
 import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/routes/routes.dart';
 import 'package:billpayment/service/api_service.dart';
+import 'package:billpayment/service/input_value_controller.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ void main() async {
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => BillProvider()),
           ChangeNotifierProvider(create: (context) => TransactionProvider()),
+          ChangeNotifierProvider(create: (context) => InputFieldController()),
         ],
         child: const BillPaymentApp(),
       ),
