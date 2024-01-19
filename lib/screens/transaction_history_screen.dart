@@ -1,4 +1,5 @@
 import 'package:billpayment/authentication/auth_info.dart';
+import 'package:billpayment/custom_widgets/loading_shimmer.dart';
 import 'package:billpayment/custom_widgets/payment_history_cards.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
@@ -131,22 +132,7 @@ class TransactionHistoryScreen extends StatelessWidget {
                     },
                   );
                 }
-                return Shimmer.fromColors(
-                    baseColor: Colors.grey[300]!,
-                    highlightColor: Colors.grey[100]!,
-                    child: ListTile(
-                        leading: const CircleAvatar(
-                          backgroundColor: Colors.white,
-                          radius: 25,
-                        ),
-                        title: Container(
-                          height: 16,
-                          color: Colors.white,
-                        ),
-                        subtitle: Container(
-                          height: 12,
-                          color: Colors.white,
-                        )));
+                return LoadingShimmer();
               },
             ),
           ),

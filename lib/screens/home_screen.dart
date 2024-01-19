@@ -5,9 +5,11 @@ import 'package:billpayment/constants/variables/enums.dart';
 import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_drawer.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
+import 'package:billpayment/custom_widgets/loading_shimmer.dart';
 import 'package:billpayment/custom_widgets/payment_history_cards.dart';
 import 'package:billpayment/custom_widgets/upcoming_bill.dart';
 import 'package:billpayment/models/bill.dart';
+import 'package:billpayment/models/transaction.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
@@ -50,21 +52,19 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  child: Text(
-                    "Welcome ${authInfo.logedUserInfo["fullName"]}"
-                        .substring(0, 15),
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "Mulish",
-                      shadows: [
-                        Shadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                        ),
-                      ],
-                    ),
+                Text(
+                  "Welcome ${authInfo.logedUserInfo["fullName"]}"
+                      .substring(0, 15),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "Mulish",
+                    shadows: [
+                      Shadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                      ),
+                    ],
                   ),
                 ),
                 Row(
@@ -72,7 +72,7 @@ class HomeScreen extends StatelessWidget {
                     Container(
                       height: 35,
                       width: 35,
-                      margin: EdgeInsets.only(right: 13),
+                      margin: const EdgeInsets.only(right: 13),
                       decoration: BoxDecoration(
                         image: const DecorationImage(
                           fit: BoxFit.fill,
@@ -87,30 +87,31 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           Expanded(
-              flex: 3,
-              child: FutureBuilder(
-                  future:
-                      billProvider.getUserBills(authInfo.logedUserInfo["id"]),
-                  builder: (context, AsyncSnapshot snapshot) {
-                    if (snapshot.hasData) {
-                      double totalOutStanding = 0;
-                      int pendingBills = 0;
-                      String DueDate = "";
+            flex: 3,
+            child: FutureBuilder(
+              future: billProvider.getUserBills(authInfo.logedUserInfo["id"]),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  double totalOutStanding = 0;
+                  int pendingBills = 0;
+                  String DueDate = "";
 
-                      for (var bill in snapshot.data) {
-                        if (bill["status"] == "pending") {
-                          pendingBills++;
-                          totalOutStanding += bill["amount"];
-                        }
-                      }
-                      return BillSummary(
-                        totalOutstanding: totalOutStanding,
-                        pendingBilles: pendingBills,
-                        dueDate: "14 Sept 2024",
-                      );
+                  for (var bill in snapshot.data) {
+                    if (bill["status"] == "pending") {
+                      pendingBills++;
+                      totalOutStanding += bill["amount"];
                     }
-                    return Text("data");
-                  })),
+                  }
+                  return BillSummary(
+                    totalOutstanding: totalOutStanding,
+                    pendingBilles: pendingBills,
+                    dueDate: "14 Sept 2024",
+                  );
+                }
+                return const LoadingCard();
+              },
+            ),
+          ),
           Container(
             margin: const EdgeInsets.only(left: 10),
             child: const Align(
@@ -156,7 +157,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   );
                 }
-                return Text("loasing data");
+                return const LoadingShimmer();
               },
             ),
           ),
@@ -195,7 +196,7 @@ class HomeScreen extends StatelessWidget {
                     },
                   );
                 }
-                return Text("loading");
+                return const LoadingShimmer();
               },
             ),
           ),
@@ -206,6 +207,14 @@ class HomeScreen extends StatelessWidget {
 }
 
 void _showPaymentDialog(BuildContext context, Bill bill) {
+  Map<String, dynamic> transactionJson = {
+    "name": bill.name,
+    "amount": bill.amount,
+    "dueDate": bill.dueDate,
+    "status": "completed",
+    "userId": bill.userId,
+  };
+
   showDialog(
     context: context,
     builder: (BuildContext context) {
@@ -234,7 +243,8 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
           ),
           TextButton(
             onPressed: () {
-              _makePayment(context, 453);
+              _makePayment(
+                  context, "${bill.id}", Transaction.fromJson(transactionJson));
             },
             child: const Text(
               'Confirm Payment',
@@ -247,9 +257,11 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
   );
 }
 
-void _makePayment(BuildContext context, double amount) {
+void _makePayment(
+    BuildContext context, String bill_id, Transaction transaction) {
   // Perform payment actions here
-  print('Payment confirmed for \$ $amount');
+  print('Payment confirmed for \$ $bill_id');
+  print('transaction ${transaction}');
   // You can add logic to process the payment, update the UI, etc.
   Navigator.of(context).pop(); // Close the dialog
 }
