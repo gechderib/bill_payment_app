@@ -170,6 +170,40 @@ class BillProvider extends ChangeNotifier {
     }
   }
 
+  Future completPendingTransactions(String transaction_id) async {
+    print("kkkkkkkkkkkkkkkkkkkkkkk");
+    try {
+      var header = <String, String>{
+        'content-type': 'application/json',
+        // 'X-acess-token': 'sampelto',
+      };
+      final response = await http.patch(
+        Uri.parse(
+          "$BASE_URL/transactions/$transaction_id",
+        ),
+        headers: header,
+        body: jsonEncode(
+          <String, dynamic>{
+            "status": "completed",
+            "dueDate": DateTime.now().toString()
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        await uiProvider.showToast(
+            "Transaction successful", Colors.greenAccent, Colors.white);
+        return json.decode(response.body);
+      } else if (response.statusCode == 400 || response.statusCode == 401) {
+        await uiProvider.showToast(
+            "Transaction not completed", Colors.redAccent, Colors.white);
+        return json.decode(response.body);
+      }
+    } catch (e) {
+      print(e);
+      throw Exception("failed to pay bill");
+    }
+  }
+
   Future payBill(String bill_id, Transaction transaction) async {
     try {
       var header = <String, String>{
@@ -221,6 +255,8 @@ class BillProvider extends ChangeNotifier {
 }
 
 class TransactionProvider extends ChangeNotifier {
+  var uiProvider = UiServiceProvider();
+
   Future getAllTransactions(String userId) async {
     try {
       var header = <String, String>{
@@ -250,11 +286,17 @@ class TransactionProvider extends ChangeNotifier {
         // 'X-access-token': '4884',
       };
       final response = await http.get(
-          Uri.parse("$BASE_URL/transaaction/$transaction_id"),
+          Uri.parse("$BASE_URL/transactions/$transaction_id"),
           headers: header);
-      if (response.statusCode == 201) {
+      if (response.statusCode == 200) {
         return json.decode(response.body);
       } else if (response.statusCode == 400) {
+        await uiProvider.showToast(
+            "Data not found", Colors.redAccent, Colors.white);
+        return json.decode(response.body);
+      } else if (response.statusCode == 404) {
+        await uiProvider.showToast(
+            "Data not found", Colors.redAccent, Colors.white);
         return json.decode(response.body);
       }
     } catch (e) {

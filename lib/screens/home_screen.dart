@@ -140,6 +140,10 @@ class HomeScreen extends StatelessWidget {
                     itemCount: pendingBills.length,
                     itemBuilder: (context, index) {
                       return UpcomingBill(
+                        onBillDetail: () {
+                          uiProvider.detail_bill_id = pendingBills[index]["id"];
+                          uiProvider.changeIndex(5);
+                        },
                         onClick: () => {
                           _showPaymentDialog(
                             context,
@@ -187,10 +191,10 @@ class HomeScreen extends StatelessWidget {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return PaymentHistoryListTile(
-                        onClick: () => {
+                        onClick: () {
                           uiProvider.detail_transaction_id =
-                              snapshot.data[index]["id"],
-                          uiProvider.changeIndex(5)
+                              snapshot.data[index]["id"];
+                          uiProvider.changeIndex(6);
                         },
                         billAmount: snapshot.data[index]["amount"],
                         billName: snapshot.data[index]["name"],

@@ -25,15 +25,15 @@
   "login": [],
   "bills": [
     {
-      "id": "1",
+      "id": "1Eg5",
       "name": "Electric",
       "amount": 895.7,
       "dueDate": "2024-01-19 19:09:06.111043",
-      "status": "pending",
+      "status": "completed",
       "userId": "c62f"
     },
     {
-      "id": "2",
+      "id": "2re4",
       "name": "Water",
       "amount": 235.7,
       "dueDate": "2024-01-19 19:09:06.111043",
@@ -41,7 +41,7 @@
       "userId": "c62f"
     },
     {
-      "id": "3",
+      "id": "34fe",
       "name": "Water",
       "amount": 235.7,
       "dueDate": "2024-01-19 19:09:06.111043",
@@ -49,7 +49,7 @@
       "userId": "c62f"
     },
     {
-      "id": "4",
+      "id": "4dte",
       "name": "Internet",
       "amount": 999.9,
       "dueDate": "2024-01-19 19:09:06.111043",
@@ -57,7 +57,7 @@
       "userId": "c833"
     },
     {
-      "id": "5",
+      "id": "er45",
       "name": "Tax",
       "amount": 999.9,
       "dueDate": "2024-01-19 19:09:06.111043",
@@ -79,6 +79,22 @@
       "name": "Tax",
       "amount": 999.9,
       "dueDate": "2024-01-19 19:34:57.233390",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "858f",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-20 16:55:03.808953",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "2776",
+      "name": "Electric",
+      "amount": 895.7,
+      "dueDate": "2024-01-20 17:21:24.725639",
       "status": "completed",
       "userId": "c62f"
     }

@@ -124,7 +124,10 @@ class TransactionHistoryScreen extends StatelessWidget {
                         billAmount: transaction["amount"],
                         billName: transaction["name"],
                         dueDate: transaction["dueDate"],
-                        onClick: () => {uiProvider.changeIndex(5)},
+                        onClick: () {
+                          uiProvider.detail_transaction_id = transaction["id"];
+                          uiProvider.changeIndex(6);
+                        },
                         status: transaction["status"] == "pending"
                             ? Icons.pending_actions
                             : Icons.check,
