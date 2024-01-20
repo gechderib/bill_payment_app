@@ -11,7 +11,7 @@ class Transaction {
   String? id;
   String name;
   double amount;
-  DateTime dueDate;
+  String dueDate;
   String status;
   String userId;
 

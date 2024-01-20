@@ -25,7 +25,8 @@ void main() async {
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => BillProvider()),
           ChangeNotifierProvider(create: (context) => TransactionProvider()),
-          ChangeNotifierProvider(create: (context) => InputFieldController()),
+          ChangeNotifierProvider(
+              create: (context) => InputFieldControllerProvider()),
         ],
         child: const BillPaymentApp(),
       ),

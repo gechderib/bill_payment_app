@@ -28,7 +28,7 @@
       "id": "1",
       "name": "Electric",
       "amount": 895.7,
-      "dueDate": "July 12 2023",
+      "dueDate": "2024-01-19 19:09:06.111043",
       "status": "pending",
       "userId": "c62f"
     },
@@ -36,35 +36,51 @@
       "id": "2",
       "name": "Water",
       "amount": 235.7,
-      "dueDate": "July 12 2023",
+      "dueDate": "2024-01-19 19:09:06.111043",
       "status": "pending",
       "userId": "c62f"
     },
     {
       "id": "3",
-      "name": "Internet",
-      "amount": 999.9,
-      "dueDate": "July 12 2023",
-      "status": "com",
-      "userId": "c833"
-    }
-  ],
-  "transactions": [
-    {
-      "id": "1",
-      "name": "Electric",
-      "amount": 895.7,
-      "dueDate": "July 12 2023",
+      "name": "Water",
+      "amount": 235.7,
+      "dueDate": "2024-01-19 19:09:06.111043",
       "status": "pending",
       "userId": "c62f"
     },
     {
-      "id": "1",
-      "name": "Water",
-      "amount": 654.7,
-      "dueDate": "Sept 23 2023",
+      "id": "4",
+      "name": "Internet",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "pending",
+      "userId": "c833"
+    },
+    {
+      "id": "5",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
       "status": "completed",
-      "userId": "4e7c"
+      "userId": "c62f"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "2c2d",
+      "name": "Water",
+      "amount": 235.7,
+      "dueDate": "2024-01-19 19:22:59.332726",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "8d0f",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:34:57.233390",
+      "status": "completed",
+      "userId": "c62f"
     }
   ]
 }

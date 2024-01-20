@@ -1,5 +1,7 @@
+import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
+import 'package:billpayment/custom_widgets/loading_shimmer.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +12,9 @@ class PaymentScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<PaymentScreenState>(context);
+    final billProvider = Provider.of<BillProvider>(context, listen: false);
+    final authInfo = Provider.of<AuthInfo>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -36,36 +41,53 @@ class PaymentScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                Container(
-                  child: const Text(
-                    "Payment",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w700,
-                      fontFamily: "Mulish",
-                      shadows: [
-                        Shadow(
-                          color: Color.fromRGBO(0, 0, 0, 0.25),
-                        ),
-                      ],
-                    ),
+                const Text(
+                  "Payment",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                    fontFamily: "Mulish",
+                    shadows: [
+                      Shadow(
+                        color: Color.fromRGBO(0, 0, 0, 0.25),
+                      ),
+                    ],
                   ),
                 ),
                 Container(
-                  margin: EdgeInsets.only(left: 40),
+                  margin: const EdgeInsets.only(left: 40),
                 )
               ],
             ),
           ),
           Expanded(
             flex: 1,
-            child: BillSummary(
-                totalOutstanding: 859,
-                pendingBilles: 21,
-                dueDate: "july 12 2023"),
+            child: FutureBuilder(
+              future: billProvider.getUserBills(authInfo.logedUserInfo["id"]),
+              builder: (context, AsyncSnapshot snapshot) {
+                if (snapshot.hasData) {
+                  double totalOutStanding = 0;
+                  int pendingBills = 0;
+                  String dueDate = "";
+
+                  for (var bill in snapshot.data) {
+                    if (bill["status"] == "pending") {
+                      pendingBills++;
+                      totalOutStanding += bill["amount"];
+                    }
+                  }
+                  return BillSummary(
+                    totalOutstanding: totalOutStanding,
+                    pendingBilles: pendingBills,
+                    dueDate: "14 Sept 2024",
+                  );
+                }
+                return const LoadingCard();
+              },
+            ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 50,
           ),
           Expanded(
@@ -77,15 +99,14 @@ class PaymentScreen extends StatelessWidget {
                 children: [
                   DropdownButton<String>(
                     value: uiProvider.selectedBill,
-                    hint: Text('Select Bill'),
+                    hint: const Text('Select Bill'),
                     onChanged: (String? newValue) {
                       uiProvider.setBill(newValue!);
                     },
-
-                    style: TextStyle(color: Colors.black), // Change text color
-                    icon: Icon(Icons.arrow_drop_down_circle,
+                    style: const TextStyle(
+                        color: Colors.black), // Change text color
+                    icon: const Icon(Icons.arrow_drop_down_circle,
                         color: Colors.black38), // Change dropdown icon color
-
                     items: uiProvider.bills.map<DropdownMenuItem<String>>(
                       (String value) {
                         print(value);
@@ -96,10 +117,10 @@ class PaymentScreen extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(value),
-                                SizedBox(
+                                const SizedBox(
                                   width: 120,
                                 ),
-                                Text("ETB. 747"),
+                                const Text("ETB. 747"),
                               ],
                             ),
                           ),
@@ -119,17 +140,18 @@ class PaymentScreen extends StatelessWidget {
                       labelText: 'Enter Amount',
                     ),
                   ),
-                  SizedBox(height: 20.0),
+                  const SizedBox(height: 20.0),
                   CustomButton(
-                      horizontalMargin: 0,
-                      verticalMargin: 10,
-                      btnName: const Text(
-                        "Confirm Payment",
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onPress: () {
-                        _confirmPayment(context);
-                      }),
+                    horizontalMargin: 0,
+                    verticalMargin: 10,
+                    btnName: const Text(
+                      "Confirm Payment",
+                      style: TextStyle(color: Colors.white),
+                    ),
+                    onPress: () {
+                      _confirmPayment(context);
+                    },
+                  ),
                 ],
               ),
             ),
@@ -156,8 +178,6 @@ class PaymentScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 if (paymentSuccess) {
-                  // Navigate to a success page or perform any other actions
-                  // You can replace the next line with your navigation logic
                   Navigator.of(context).pop();
                 }
               },

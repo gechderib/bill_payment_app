@@ -1,3 +1,4 @@
+import 'package:billpayment/models/bill.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
@@ -12,6 +13,9 @@ class UiServiceProvider extends ChangeNotifier {
   int activeTabIndex = 0;
 
   double safeAreaHeight = 0;
+
+  String detail_transaction_id = "";
+  String detail_bill_id = "";
 
   Future<void> loadContent(BuildContext context) async {
     await Future.delayed(Duration(seconds: 2));

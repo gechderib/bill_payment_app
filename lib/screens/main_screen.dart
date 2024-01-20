@@ -6,6 +6,7 @@ import 'package:billpayment/screens/home_screen.dart';
 import 'package:billpayment/screens/payment_screen.dart';
 import 'package:billpayment/screens/profile_screen.dart';
 import 'package:billpayment/screens/settings_screen.dart';
+import 'package:billpayment/screens/transaction_detail_screen.dart';
 import 'package:billpayment/screens/transaction_history_screen.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,7 @@ class MainScreen extends StatelessWidget {
       SettingScreen(),
       ProfileScreen(),
       BillDetailScreen(),
+      TransactionDetailScreen(),
     ];
     return SafeArea(
       child: Scaffold(

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-class InputFieldController extends ChangeNotifier {
-  String paymentAmount = "";
+class InputFieldControllerProvider extends ChangeNotifier {
+  double paymentAmount = 0;
 
-  void setPaymenAmount(String value) {
+  void setPaymenAmount(double value) {
     paymentAmount = value;
     notifyListeners();
   }

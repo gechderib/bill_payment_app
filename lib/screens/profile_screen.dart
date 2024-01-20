@@ -1,3 +1,4 @@
+import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +21,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiServiceProvider>(context);
-
+    final authInfo = Provider.of<AuthInfo>(context);
     return Scaffold(
       body: Column(
         children: [
@@ -90,11 +91,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   ListTile(
                     title: Text('Full Name'),
-                    subtitle: Text(fullName),
+                    subtitle: Text("${authInfo.logedUserInfo["fullName"]}"),
                   ),
                   ListTile(
                     title: Text('Email'),
-                    subtitle: Text(email),
+                    subtitle: Text("${authInfo.logedUserInfo["email"]}"),
                   ),
                   ListTile(
                     title: Text('Current Password'),

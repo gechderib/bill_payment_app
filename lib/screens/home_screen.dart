@@ -11,6 +11,7 @@ import 'package:billpayment/custom_widgets/upcoming_bill.dart';
 import 'package:billpayment/models/bill.dart';
 import 'package:billpayment/models/transaction.dart';
 import 'package:billpayment/service/api_service.dart';
+import 'package:billpayment/service/input_value_controller.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -22,7 +23,8 @@ class HomeScreen extends StatelessWidget {
     final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
     final authInfo = Provider.of<AuthInfo>(context, listen: false);
     final billProvider = Provider.of<BillProvider>(context, listen: false);
-    final transactionProvider = Provider.of<TransactionProvider>(context);
+    final transactionProvider =
+        Provider.of<TransactionProvider>(context, listen: false);
     return Scaffold(
       drawer: const BillPaymentDrawer(),
       body: Column(
@@ -145,7 +147,7 @@ class HomeScreen extends StatelessWidget {
                                 id: pendingBills[index]["id"],
                                 name: pendingBills[index]["name"],
                                 amount: pendingBills[index]["amount"],
-                                dueDate: DateTime.now(),
+                                dueDate: DateTime.now().toString(),
                                 status: pendingBills[index]["status"],
                                 userId: authInfo.logedUserInfo["id"]),
                           ),
@@ -185,7 +187,11 @@ class HomeScreen extends StatelessWidget {
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
                       return PaymentHistoryListTile(
-                        onClick: () => {uiProvider.changeIndex(5)},
+                        onClick: () => {
+                          uiProvider.detail_transaction_id =
+                              snapshot.data[index]["id"],
+                          uiProvider.changeIndex(5)
+                        },
                         billAmount: snapshot.data[index]["amount"],
                         billName: snapshot.data[index]["name"],
                         dueDate: snapshot.data[index]["dueDate"],
@@ -207,6 +213,11 @@ class HomeScreen extends StatelessWidget {
 }
 
 void _showPaymentDialog(BuildContext context, Bill bill) {
+  final inputFieldController =
+      Provider.of<InputFieldControllerProvider>(context, listen: false);
+  final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
+  final billProvider = Provider.of<BillProvider>(context, listen: false);
+
   Map<String, dynamic> transactionJson = {
     "name": bill.name,
     "amount": bill.amount,
@@ -219,14 +230,17 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
     context: context,
     builder: (BuildContext context) {
       return AlertDialog(
-        title: Text('Payment Confirmation ${bill.status}'),
+        title: Text('Payment Confirmation'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
             Text('Enter the payment amount: ${bill.amount}'),
             const SizedBox(height: 10),
             CustomTextInputField(
-                onValueChnage: (value) {},
+                textInputType: TextInputType.number,
+                onValueChnage: (value) {
+                  inputFieldController.setPaymenAmount(double.parse(value));
+                },
                 hint: "Enter amount",
                 decoration: textFormFieldDecoration),
           ],
@@ -242,9 +256,27 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
             ),
           ),
           TextButton(
-            onPressed: () {
-              _makePayment(
-                  context, "${bill.id}", Transaction.fromJson(transactionJson));
+            onPressed: () async {
+              if (bill.status == "completed") {
+                await uiProvider.showToast(
+                    "Already Paid", Colors.yellow, Colors.white);
+                return;
+              }
+              if (inputFieldController.paymentAmount != bill.amount) {
+                await uiProvider.showToast(
+                    "Enter Correct Amount: ${bill.amount}",
+                    Colors.redAccent,
+                    Colors.white);
+                return;
+              }
+              if (inputFieldController.paymentAmount == bill.amount) {
+                var res = await billProvider.payBill(
+                  "${bill.id}",
+                  Transaction.fromJson(transactionJson),
+                );
+                Navigator.of(context).pop();
+                return;
+              }
             },
             child: const Text(
               'Confirm Payment',
@@ -255,13 +287,4 @@ void _showPaymentDialog(BuildContext context, Bill bill) {
       );
     },
   );
-}
-
-void _makePayment(
-    BuildContext context, String bill_id, Transaction transaction) {
-  // Perform payment actions here
-  print('Payment confirmed for \$ $bill_id');
-  print('transaction ${transaction}');
-  // You can add logic to process the payment, update the UI, etc.
-  Navigator.of(context).pop(); // Close the dialog
 }

@@ -181,33 +181,37 @@ class BillProvider extends ChangeNotifier {
           "$BASE_URL/bills/$bill_id",
         ),
         headers: header,
-        body: <String, dynamic>{"status": "completed"},
+        body: jsonEncode(<String, dynamic>{"status": "completed"}),
       );
-      final transactionRes = await http.post(
-        Uri.parse(
-          "$BASE_URL/transactions",
-        ),
-        headers: header,
-        body: jsonEncode(<String, dynamic>{
-          "name": transaction.name,
-          "amount": transaction.amount,
-          "dueDate": transaction.dueDate,
-          "status": transaction.status,
-          "userId": transaction.userId
-        }),
-      );
-
-      if (transactionRes.statusCode == 201 && response.statusCode == 201) {
+      if (response.statusCode == 200) {
+        final transactionRes = await http.post(
+          Uri.parse(
+            "$BASE_URL/transactions",
+          ),
+          headers: header,
+          body: jsonEncode(<String, dynamic>{
+            "name": transaction.name,
+            "amount": transaction.amount,
+            "dueDate": transaction.dueDate,
+            "status": transaction.status,
+            "userId": transaction.userId
+          }),
+        );
+        if (transactionRes.statusCode == 201) {
+          await uiProvider.showToast(
+              "Transaction successful", Colors.greenAccent, Colors.white);
+          return json.decode(response.body);
+        } else if (response.statusCode == 400 ||
+            transactionRes.statusCode == 400 ||
+            response.statusCode == 401 ||
+            transactionRes.statusCode == 401) {
+          await uiProvider.showToast(
+              "Transaction not completed", Colors.redAccent, Colors.white);
+          return json.decode(response.body);
+        }
+      } else if (response.statusCode == 400 || response.statusCode == 401) {
         await uiProvider.showToast(
-            "Transaction successful", Colors.greenAccent, Colors.white);
-        return json.decode(response.body);
-      } else if (response.statusCode == 400 ||
-          transactionRes.statusCode == 400 ||
-          response.statusCode == 401 ||
-          transactionRes.statusCode == 401) {
-        await uiProvider.showToast(
-            "Transaction not completed", Colors.redAccent, Colors.white);
-
+            "Bill not paid", Colors.redAccent, Colors.white);
         return json.decode(response.body);
       }
     } catch (e) {
