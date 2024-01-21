@@ -99,9 +99,9 @@ class HomeScreen extends StatelessWidget {
                   String DueDate = "";
 
                   for (var bill in snapshot.data) {
-                    if (bill["status"] == "pending") {
+                    if (bill.status == "pending") {
                       pendingBills++;
-                      totalOutStanding += bill["amount"];
+                      totalOutStanding += bill.amount;
                     }
                   }
                   return BillSummary(
@@ -134,31 +134,31 @@ class HomeScreen extends StatelessWidget {
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
                   List<dynamic> pendingBills = snapshot.data
-                      .where((userBill) => userBill["status"] == "pending")
+                      .where((userBill) => userBill.status == "pending")
                       .toList();
                   return ListView.builder(
                     itemCount: pendingBills.length,
                     itemBuilder: (context, index) {
                       return UpcomingBill(
                         onBillDetail: () {
-                          uiProvider.detail_bill_id = pendingBills[index]["id"];
+                          uiProvider.detail_bill_id = pendingBills[index].id;
                           uiProvider.changeIndex(5);
                         },
                         onClick: () => {
                           _showPaymentDialog(
                             context,
                             Bill(
-                                id: pendingBills[index]["id"],
-                                name: pendingBills[index]["name"],
-                                amount: pendingBills[index]["amount"],
+                                id: pendingBills[index].id,
+                                name: pendingBills[index].name,
+                                amount: pendingBills[index].amount,
                                 dueDate: DateTime.now().toString(),
-                                status: pendingBills[index]["status"],
+                                status: pendingBills[index].status,
                                 userId: authInfo.logedUserInfo["id"]),
                           ),
                         },
-                        billAmount: pendingBills[index]["amount"],
-                        billName: pendingBills[index]["name"],
-                        dueDate: pendingBills[index]["dueDate"],
+                        billAmount: pendingBills[index].amount,
+                        billName: pendingBills[index].name,
+                        dueDate: pendingBills[index].dueDate,
                       );
                     },
                   );

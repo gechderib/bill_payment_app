@@ -17,22 +17,16 @@ class UiServiceProvider extends ChangeNotifier {
   String detail_transaction_id = "";
   String detail_bill_id = "";
 
-  dynamic selectedBill = {
-    'id': '1Eg5',
-    'name': 'Electric',
-    'amount': 895.7,
-    'dueDate': DateTime.parse('2024-01-19 19:09:06.111043'),
-    'status': 'completed',
-    'userId': 'c62f',
-  };
+  Bill? selectedBill = null;
 
-  // void setBill(Bill bill) {
-  //   selectedBill = bill;
-  //   notifyListeners();
-  // }
+  void setSelectedBill(Bill? bill) {
+    selectedBill = bill;
+    print(selectedBill?.name);
+    notifyListeners();
+  }
 
   Future<void> loadContent(BuildContext context) async {
-    await Future.delayed(Duration(seconds: 2));
+    await Future.delayed(const Duration(seconds: 2));
     _isLoading = false;
     notifyListeners();
   }

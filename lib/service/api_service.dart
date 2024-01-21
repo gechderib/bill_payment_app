@@ -127,7 +127,7 @@ class AuthProvider extends ChangeNotifier {
 class BillProvider extends ChangeNotifier {
   var uiProvider = UiServiceProvider();
 
-  Future getUserBills(String userId) async {
+  Future<List<Bill>> getUserBills(String userId) async {
     var header = <String, String>{
       'content-type': 'application/json',
       // 'X-access-token': '43',
@@ -138,44 +138,21 @@ class BillProvider extends ChangeNotifier {
         headers: header,
       );
       if (response.statusCode == 200) {
-        List<dynamic> userBills = json
-            .decode(response.body)
+        List<dynamic> userBillsData = json.decode(response.body);
+        List<Bill> userBills = userBillsData
             .where((userBill) => userBill["userId"] == userId)
+            .map((userBill) => Bill.fromJson(userBill))
             .toList();
         return userBills;
       } else if (response.statusCode == 400) {
-        return json.decode(response.body);
+        // Handle error response if needed
+        throw Exception("Failed to fetch bills: ${json.decode(response.body)}");
       }
     } catch (e) {
-      throw Exception("failed to get bills");
+      throw Exception("Failed to get bills: $e");
     }
-  }
 
-  Future<List<Bill>> getMyBills(String userId) async {
-    var header = <String, String>{
-      'content-type': 'application/json',
-      // 'X-access-token': '43',
-    };
-    try {
-      final response = await http.get(
-        Uri.parse("$BASE_URL/bills"),
-        headers: header,
-      );
-      if (response.statusCode == 200) {
-        List<Bill> userBills = json
-            .decode(response.body)
-            .where((userBill) => userBill["userId"] == userId)
-            .map((billJson) => Bill.fromJson(billJson))
-            .toList();
-        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-        print(userBills);
-        return userBills;
-      } else if (response.statusCode == 400) {
-        return json.decode(response.body);
-      }
-    } catch (e) {
-      throw Exception("failed to get bills");
-    }
+    // Return an empty list if no bills or an error occurred
     return [];
   }
 

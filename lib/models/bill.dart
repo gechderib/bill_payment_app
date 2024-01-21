@@ -31,7 +31,7 @@ class Bill {
     return {
       "id": id,
       "name": name,
-      "amout": amount,
+      "amount": amount,
       "dueDate": dueDate,
       "status": status,
       "userId": userId

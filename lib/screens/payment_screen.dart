@@ -4,6 +4,7 @@ import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
 import 'package:billpayment/custom_widgets/loading_shimmer.dart';
+import 'package:billpayment/models/bill.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/input_value_controller.dart';
 import 'package:billpayment/service/ui_service.dart';
@@ -79,9 +80,9 @@ class PaymentScreen extends StatelessWidget {
                       String DueDate = "";
 
                       for (var bill in snapshot.data) {
-                        if (bill["status"] == "pending") {
+                        if (bill.status == "pending") {
                           pendingBills++;
-                          totalOutStanding += bill["amount"];
+                          totalOutStanding += bill.amount;
                         }
                       }
                       return BillSummary(
@@ -96,17 +97,39 @@ class PaymentScreen extends StatelessWidget {
               ),
               Container(
                 child: FutureBuilder(
-                  future: billProvider.getOneUserBill(userId),
+                  future: billProvider.getUserBills(userId),
                   builder: (context, AsyncSnapshot snapshot) {
+                    // print(snapshot);
                     if (snapshot.hasData) {
-                      return Text("hell");
+                      List<Bill> myList = snapshot.data;
+                      return DropdownButton<Bill>(
+                        value: null,
+                        onChanged: (selectedBill) {},
+                        items: myList.map((Bill bill) {
+                          return DropdownMenuItem<Bill>(
+                            value: bill,
+                            onTap: () {
+                              uiProvider.setSelectedBill(bill);
+                            },
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(bill.name),
+                                Text(bill.status),
+                                Text("${bill.amount}")
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                        hint: Text('Select a bill'),
+                      );
                     }
                     return const LoadingCard();
                   },
                 ),
               ),
               CustomTextInputField(
-                onValueChnage: (ValueKey) {},
+                onValueChnage: (value) {},
                 hint: "amount",
                 decoration: textFormFieldDecoration,
               ),
