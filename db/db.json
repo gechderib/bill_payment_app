@@ -20,6 +20,13 @@
       "email": "sol@gmail.com",
       "phone": "000",
       "password": "000"
+    },
+    {
+      "id": "f946",
+      "fullName": "",
+      "email": "",
+      "phone": "111",
+      "password": "111"
     }
   ],
   "login": [],
@@ -29,7 +36,7 @@
       "name": "Electric",
       "amount": 895.7,
       "dueDate": "2024-01-19 19:09:06.111043",
-      "status": "completed",
+      "status": "pending",
       "userId": "c62f"
     },
     {
@@ -95,6 +102,62 @@
       "name": "Electric",
       "amount": 895.7,
       "dueDate": "2024-01-20 17:21:24.725639",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "b02f",
+      "name": "Water",
+      "amount": 235.7,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "aa37",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "c221",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "f511",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "0df2",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "86db",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "8c01",
+      "name": "Tax",
+      "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
       "status": "completed",
       "userId": "c62f"
     }

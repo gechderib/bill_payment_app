@@ -1,14 +1,22 @@
+import 'dart:ffi';
+import 'dart:io';
+
 import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/constants/styles/decoration.dart';
+import 'package:billpayment/constants/variables/const.dart';
 import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
 import 'package:billpayment/custom_widgets/loading_shimmer.dart';
 import 'package:billpayment/models/bill.dart';
+import 'package:billpayment/models/transaction.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/input_value_controller.dart';
 import 'package:billpayment/service/ui_service.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 
 class PaymentScreen extends StatelessWidget {
@@ -18,10 +26,10 @@ class PaymentScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiServiceProvider>(context);
     final authInfo = Provider.of<AuthInfo>(context);
-    final transactionProvider = Provider.of<TransactionProvider>(context);
+    final inputProvider = Provider.of<InputFieldControllerProvider>(context);
     final billProvider = Provider.of<BillProvider>(context);
-
     final userId = authInfo.logedUserInfo["id"];
+
     return Scaffold(
       body: Column(
         children: [
@@ -96,48 +104,136 @@ class PaymentScreen extends StatelessWidget {
                 ),
               ),
               Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
                 child: FutureBuilder(
                   future: billProvider.getUserBills(userId),
                   builder: (context, AsyncSnapshot snapshot) {
-                    // print(snapshot);
                     if (snapshot.hasData) {
                       List<Bill> myList = snapshot.data;
                       return DropdownButton<Bill>(
                         value: null,
+                        style: const TextStyle(
+                          color: Color.fromARGB(255, 85, 85, 85),
+                          fontSize: 18.0,
+                        ),
+                        icon: const Icon(
+                          Icons.arrow_drop_down,
+                          color: Color.fromARGB(255, 134, 134, 134),
+                          size: 30.0,
+                        ),
+                        iconSize: 24.0,
+                        elevation: 16,
+                        underline: Container(
+                          height: 1,
+                          color: const Color.fromARGB(255, 117, 117, 117),
+                        ),
+                        isExpanded: true,
                         onChanged: (selectedBill) {},
                         items: myList.map((Bill bill) {
                           return DropdownMenuItem<Bill>(
                             value: bill,
                             onTap: () {
                               uiProvider.setSelectedBill(bill);
+                              inputProvider.setPaymentController(bill.amount);
                             },
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Text(bill.name),
-                                Text(bill.status),
-                                Text("${bill.amount}")
+                                Text(
+                                  bill.status,
+                                  style: TextStyle(
+                                    color: bill.status == "pending"
+                                        ? getStatusColor("pending")
+                                        : bill.status == "completed"
+                                            ? getStatusColor("completed")
+                                            : getStatusColor("overdue"),
+                                  ),
+                                ),
+                                Text("ETB. ${bill.amount}")
                               ],
                             ),
                           );
                         }).toList(),
-                        hint: Text('Select a bill'),
+                        hint: const Text('Select a bill'),
                       );
                     }
                     return const LoadingCard();
                   },
                 ),
               ),
-              CustomTextInputField(
-                onValueChnage: (value) {},
-                hint: "amount",
-                decoration: textFormFieldDecoration,
+              const SizedBox(
+                height: 15,
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: TextFormField(
+                  cursorColor: Colors.grey,
+                  controller: inputProvider.paymentController,
+                  decoration: const InputDecoration(
+                    labelText: 'Enter bill amount',
+                    contentPadding: EdgeInsets.only(
+                      left: 16,
+                      top: 5,
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Color.fromRGBO(62, 62, 62, 1)),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                          style: BorderStyle.solid,
+                          width: 0.7,
+                          color: Color.fromRGBO(62, 62, 62, 1)),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                height: 15,
               ),
               CustomButton(
                 horizontalMargin: 0,
                 verticalMargin: 0,
-                btnName: Text("Pay Bill"),
-                onPress: () {},
+                btnName: const Text(
+                  "Pay Bill",
+                  style: TextStyle(color: Colors.white),
+                ),
+                onPress: () async {
+                  if (uiProvider.selectedBill?.status == "completed") {
+                    await uiProvider.showToast(
+                        "Already Paid", Colors.yellow, Colors.white);
+                    return;
+                  }
+                  if (double.parse(inputProvider.paymentController.text) !=
+                      uiProvider.selectedBill?.amount) {
+                    await uiProvider.showToast(
+                        "Enter Correct Amount: ${uiProvider.selectedBill?.amount}",
+                        Colors.redAccent,
+                        Colors.white);
+                    return;
+                  }
+                  if (double.parse(inputProvider.paymentController.text) ==
+                      uiProvider.selectedBill?.amount) {
+                    var res = await billProvider.payBill(
+                      "${uiProvider.selectedBill?.id}",
+                      Transaction.fromJson({
+                        "name": uiProvider.selectedBill?.name,
+                        "amount": uiProvider.selectedBill?.amount,
+                        "dueDate": uiProvider.selectedBill?.dueDate,
+                        "status": "completed",
+                        "userId": uiProvider.selectedBill?.userId,
+                      }),
+                    );
+                    return;
+                  }
+                },
               )
             ],
           ),
@@ -145,9 +241,80 @@ class PaymentScreen extends StatelessWidget {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Colors.white,
-        onPressed: () {},
+        onPressed: () {
+          downloadStatement(context);
+        },
         child: const Icon(Icons.download),
       ),
     );
   }
+}
+
+void downloadStatement(BuildContext context) async {
+  List<Transaction> transactions = [
+    Transaction(
+        name: 'Transaction 1',
+        amount: 100.0,
+        dueDate: '2022-02-01',
+        status: 'Paid',
+        userId: "uid_2"),
+    Transaction(
+        name: 'Transaction 2',
+        amount: 150.0,
+        dueDate: '2022-03-01',
+        status: 'Pending',
+        userId: "uid_1"),
+  ];
+
+  String csvContent = _generateCsv(transactions);
+
+  // Get the app's document directory
+  Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+  String filePath = '${appDocumentsDirectory.path}/transaction_statement.csv';
+
+  // Write CSV content to a file
+  File file = File(filePath);
+
+  if (await file.exists()) {
+    await file.writeAsString(csvContent);
+  } else {}
+
+  // Show a snackbar with a download link
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: const Text('Statement downloaded'),
+      action: SnackBarAction(
+        label: 'Open',
+        onPressed: () async {
+          // Open the file using a platform-specific method
+          try {
+            await OpenFile.open(filePath, type: 'application/csv');
+            print(filePath);
+          } catch (e) {
+            print('Error opening file: $e');
+          }
+        },
+      ),
+    ),
+  );
+}
+
+String _generateCsv(List<Transaction> transactions) {
+  List<List<dynamic>> csvData = [];
+
+  // Add CSV header
+  csvData.add(['Name', 'Amount', 'Due Date', 'Status', 'User Id']);
+
+  // Add transaction data
+  for (var i = 0; i < transactions.length; i++) {
+    csvData.add([
+      transactions[i].name,
+      transactions[i].amount,
+      transactions[i].dueDate,
+      transactions[i].status,
+      transactions[i].userId
+    ]);
+  }
+  // Convert data to CSV format
+  return const ListToCsvConverter().convert(csvData);
 }
