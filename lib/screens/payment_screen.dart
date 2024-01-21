@@ -3,6 +3,8 @@ import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/custom_widgets/loading_shimmer.dart';
 import 'package:billpayment/service/api_service.dart';
+import 'package:billpayment/service/input_value_controller.dart';
+import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -11,9 +13,11 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uiProvider = Provider.of<PaymentScreenState>(context);
+    final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
     final billProvider = Provider.of<BillProvider>(context, listen: false);
-    final authInfo = Provider.of<AuthInfo>(context);
+    final authInfo = Provider.of<AuthInfo>(context, listen: false);
+    final inputAmount =
+        Provider.of<InputFieldControllerProvider>(context, listen: false);
 
     return Scaffold(
       body: Column(
@@ -97,44 +101,22 @@ class PaymentScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  DropdownButton<String>(
-                    value: uiProvider.selectedBill,
-                    hint: const Text('Select Bill'),
-                    onChanged: (String? newValue) {
-                      uiProvider.setBill(newValue!);
-                    },
-                    style: const TextStyle(
-                        color: Colors.black), // Change text color
-                    icon: const Icon(Icons.arrow_drop_down_circle,
-                        color: Colors.black38), // Change dropdown icon color
-                    items: uiProvider.bills.map<DropdownMenuItem<String>>(
-                      (String value) {
-                        print(value);
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Container(
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(value),
-                                const SizedBox(
-                                  width: 120,
-                                ),
-                                const Text("ETB. 747"),
-                              ],
-                            ),
-                          ),
-                        );
-                      },
-                    ).toList(),
-                  ),
+                  FutureBuilder(
+                      future: billProvider
+                          .getUserBills(authInfo.logedUserInfo["id"]),
+                      builder: (context, AsyncSnapshot snapshot) {
+                        if (snapshot.hasData) {
+                          return Text("data");
+                        }
+                        return const LoadingShimmer();
+                      }),
                   const SizedBox(height: 20.0),
                   TextField(
                     keyboardType:
                         TextInputType.numberWithOptions(decimal: true),
                     onChanged: (value) {
-                      uiProvider
-                          .setPaymentAmount(double.tryParse(value) ?? 0.0);
+                      inputAmount
+                          .setPaymenAmount(double.tryParse(value) ?? 0.0);
                     },
                     decoration: const InputDecoration(
                       labelText: 'Enter Amount',
@@ -148,9 +130,7 @@ class PaymentScreen extends StatelessWidget {
                       "Confirm Payment",
                       style: TextStyle(color: Colors.white),
                     ),
-                    onPress: () {
-                      _confirmPayment(context);
-                    },
+                    onPress: () {},
                   ),
                 ],
               ),
@@ -158,34 +138,6 @@ class PaymentScreen extends StatelessWidget {
           ),
         ],
       ),
-    );
-  }
-
-  Future<void> _confirmPayment(BuildContext context) async {
-    bool paymentSuccess = true; // Set to false for a failure scenario
-
-    String resultMessage =
-        paymentSuccess ? 'Payment Successful!' : 'Payment Failed. Try again.';
-
-    await showDialog(
-      context: context,
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('Payment Result'),
-          content: Text(resultMessage),
-          actions: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop(); // Close the dialog
-                if (paymentSuccess) {
-                  Navigator.of(context).pop();
-                }
-              },
-              child: Text('OK'),
-            ),
-          ],
-        );
-      },
     );
   }
 }

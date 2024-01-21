@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:billpayment/constants/variables/const.dart';
+import 'package:billpayment/models/bill.dart';
 import 'package:billpayment/models/transaction.dart';
 import 'package:billpayment/models/user.dart';
 import 'package:billpayment/service/ui_service.dart';
@@ -76,6 +77,38 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  Future changePassword(String userId, String newPassword) async {
+    try {
+      var header = <String, String>{
+        'content-type': 'application/json',
+        // 'X-acess-token': 'sampelto',
+      };
+      final response = await http.patch(
+        Uri.parse(
+          "$BASE_URL/users/$userId",
+        ),
+        headers: header,
+        body: jsonEncode(
+          <String, dynamic>{
+            "password": newPassword,
+          },
+        ),
+      );
+      if (response.statusCode == 200) {
+        await uiProvider.showToast(
+            "Password successful updated", Colors.greenAccent, Colors.white);
+        return json.decode(response.body);
+      } else if (response.statusCode == 400 || response.statusCode == 401) {
+        await uiProvider.showToast(
+            "Password not updated", Colors.redAccent, Colors.white);
+        return json.decode(response.body);
+      }
+    } catch (e) {
+      handleAuthError(e);
+      throw Exception("failed to pay bill");
+    }
+  }
+
   void handleAuthError(dynamic e) async {
     if (e is SocketException) {
       await uiProvider.showToast(
@@ -88,38 +121,6 @@ class AuthProvider extends ChangeNotifier {
           "Please check your data", Colors.red, Colors.white);
     }
     throw Exception('Failed to auth user');
-  }
-
-  Future<UserModel> checkUserExistence(UserModel user) async {
-    try {
-      final response = await http.get(
-        Uri.parse(
-            "$BASE_URL/users?phone=${user.phone}?password=${user.password}"),
-      );
-      if (response.statusCode == 200) {
-        return UserModel.fromJson(jsonDecode(response.body)[0]);
-      } else if (response.statusCode == 404) {
-        throw Exception('User not found');
-      } else {
-        print('Received unexpected status code: ${response.statusCode}');
-        throw Exception('Failed to retrieve user');
-      }
-    } catch (e) {
-      if (e is SocketException) {
-        await uiProvider.showToast(
-            "Please check your connection", Colors.red, Colors.white);
-        uiProvider.changeIsLoging(true);
-      } else if (e is HttpException) {
-        await uiProvider.showToast(
-            "Server error try again", Colors.red, Colors.white);
-        uiProvider.changeIsLoging(true);
-      } else if (e is FormatException) {
-        await uiProvider.showToast(
-            "Please check your data", Colors.red, Colors.white);
-        uiProvider.changeIsLoging(true);
-      }
-      throw Exception("Failed to create user");
-    }
   }
 }
 
@@ -150,6 +151,33 @@ class BillProvider extends ChangeNotifier {
     }
   }
 
+  Future<List<Bill>> getMyBills(String userId) async {
+    var header = <String, String>{
+      'content-type': 'application/json',
+      // 'X-access-token': '43',
+    };
+    try {
+      final response = await http.get(
+        Uri.parse("$BASE_URL/bills"),
+        headers: header,
+      );
+      if (response.statusCode == 200) {
+        List<Bill> userBills = json
+            .decode(response.body)
+            .where((userBill) => userBill["userId"] == userId)
+            .map((billJson) => Bill.fromJson(
+                billJson)) // Assuming you have a method to convert JSON to Bill
+            .toList();
+        return userBills;
+      } else if (response.statusCode == 400) {
+        return json.decode(response.body);
+      }
+    } catch (e) {
+      throw Exception("failed to get bills");
+    }
+    return [];
+  }
+
   Future getOneUserBill(String bill_id) async {
     try {
       var header = <String, String>{
@@ -171,7 +199,6 @@ class BillProvider extends ChangeNotifier {
   }
 
   Future completPendingTransactions(String transaction_id) async {
-    print("kkkkkkkkkkkkkkkkkkkkkkk");
     try {
       var header = <String, String>{
         'content-type': 'application/json',
@@ -302,22 +329,5 @@ class TransactionProvider extends ChangeNotifier {
     } catch (e) {
       throw Exception("failed to pay bill");
     }
-  }
-}
-
-class PaymentScreenState extends ChangeNotifier {
-  String selectedBill = 'Electricity Bill';
-  double paymentAmount = 0.0;
-
-  List<String> bills = ['Electricity Bill', 'Water Bill', 'Internet Bill'];
-
-  void setBill(String bill) {
-    selectedBill = bill;
-    notifyListeners();
-  }
-
-  void setPaymentAmount(double amount) {
-    paymentAmount = amount;
-    notifyListeners();
   }
 }

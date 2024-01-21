@@ -21,7 +21,6 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (context) => UiServiceProvider()),
           ChangeNotifierProvider(create: (context) => AuthInfo()),
-          ChangeNotifierProvider(create: (context) => PaymentScreenState()),
           ChangeNotifierProvider(create: (context) => AuthProvider()),
           ChangeNotifierProvider(create: (context) => BillProvider()),
           ChangeNotifierProvider(create: (context) => TransactionProvider()),

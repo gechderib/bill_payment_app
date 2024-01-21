@@ -8,26 +8,8 @@ import 'package:provider/provider.dart';
 import 'package:shimmer/shimmer.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
-  TransactionHistoryScreen({super.key});
-  final List<String> transactions = [
-    'Transaction 1 - \$100.00',
-    'Transaction 2 - \$50.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 1 - \$100.00',
-    'Transaction 2 - \$50.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    'Transaction 3 - \$75.00',
-    // Add more transactions as needed
-  ];
+  const TransactionHistoryScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiServiceProvider>(context);
