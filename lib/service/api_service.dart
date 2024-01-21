@@ -165,9 +165,10 @@ class BillProvider extends ChangeNotifier {
         List<Bill> userBills = json
             .decode(response.body)
             .where((userBill) => userBill["userId"] == userId)
-            .map((billJson) => Bill.fromJson(
-                billJson)) // Assuming you have a method to convert JSON to Bill
+            .map((billJson) => Bill.fromJson(billJson))
             .toList();
+        print("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+        print(userBills);
         return userBills;
       } else if (response.statusCode == 400) {
         return json.decode(response.body);

@@ -1,6 +1,8 @@
 import 'package:billpayment/authentication/auth_info.dart';
+import 'package:billpayment/constants/styles/decoration.dart';
 import 'package:billpayment/custom_widgets/bill_summary.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
+import 'package:billpayment/custom_widgets/input_field.dart';
 import 'package:billpayment/custom_widgets/loading_shimmer.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/input_value_controller.dart';
@@ -13,12 +15,12 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
-    final billProvider = Provider.of<BillProvider>(context, listen: false);
-    final authInfo = Provider.of<AuthInfo>(context, listen: false);
-    final inputAmount =
-        Provider.of<InputFieldControllerProvider>(context, listen: false);
+    final uiProvider = Provider.of<UiServiceProvider>(context);
+    final authInfo = Provider.of<AuthInfo>(context);
+    final transactionProvider = Provider.of<TransactionProvider>(context);
+    final billProvider = Provider.of<BillProvider>(context);
 
+    final userId = authInfo.logedUserInfo["id"];
     return Scaffold(
       body: Column(
         children: [
@@ -37,7 +39,9 @@ class PaymentScreen extends StatelessWidget {
                   margin: const EdgeInsets.only(left: 12),
                   child: Builder(
                     builder: (ctx) => IconButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        uiProvider.changeIndex(uiProvider.prevActiveIndex);
+                      },
                       icon: const Icon(
                         Icons.arrow_back_ios,
                         color: Colors.white,
@@ -46,7 +50,7 @@ class PaymentScreen extends StatelessWidget {
                   ),
                 ),
                 const Text(
-                  "Payment",
+                  "payment",
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -59,84 +63,67 @@ class PaymentScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                Container(
-                  margin: const EdgeInsets.only(left: 40),
-                )
+                Container()
               ],
             ),
           ),
-          Expanded(
-            flex: 1,
-            child: FutureBuilder(
-              future: billProvider.getUserBills(authInfo.logedUserInfo["id"]),
-              builder: (context, AsyncSnapshot snapshot) {
-                if (snapshot.hasData) {
-                  double totalOutStanding = 0;
-                  int pendingBills = 0;
-                  String dueDate = "";
+          Column(
+            children: [
+              Container(
+                child: FutureBuilder(
+                  future: billProvider.getUserBills(userId),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      double totalOutStanding = 0;
+                      int pendingBills = 0;
+                      String DueDate = "";
 
-                  for (var bill in snapshot.data) {
-                    if (bill["status"] == "pending") {
-                      pendingBills++;
-                      totalOutStanding += bill["amount"];
-                    }
-                  }
-                  return BillSummary(
-                    totalOutstanding: totalOutStanding,
-                    pendingBilles: pendingBills,
-                    dueDate: "14 Sept 2024",
-                  );
-                }
-                return const LoadingCard();
-              },
-            ),
-          ),
-          const SizedBox(
-            height: 50,
-          ),
-          Expanded(
-            flex: 2,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 0),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  FutureBuilder(
-                      future: billProvider
-                          .getUserBills(authInfo.logedUserInfo["id"]),
-                      builder: (context, AsyncSnapshot snapshot) {
-                        if (snapshot.hasData) {
-                          return Text("data");
+                      for (var bill in snapshot.data) {
+                        if (bill["status"] == "pending") {
+                          pendingBills++;
+                          totalOutStanding += bill["amount"];
                         }
-                        return const LoadingShimmer();
-                      }),
-                  const SizedBox(height: 20.0),
-                  TextField(
-                    keyboardType:
-                        TextInputType.numberWithOptions(decimal: true),
-                    onChanged: (value) {
-                      inputAmount
-                          .setPaymenAmount(double.tryParse(value) ?? 0.0);
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Enter Amount',
-                    ),
-                  ),
-                  const SizedBox(height: 20.0),
-                  CustomButton(
-                    horizontalMargin: 0,
-                    verticalMargin: 10,
-                    btnName: const Text(
-                      "Confirm Payment",
-                      style: TextStyle(color: Colors.white),
-                    ),
-                    onPress: () {},
-                  ),
-                ],
+                      }
+                      return BillSummary(
+                        totalOutstanding: totalOutStanding,
+                        pendingBilles: pendingBills,
+                        dueDate: "14 Sept 2024",
+                      );
+                    }
+                    return const LoadingCard();
+                  },
+                ),
               ),
-            ),
+              Container(
+                child: FutureBuilder(
+                  future: billProvider.getOneUserBill(userId),
+                  builder: (context, AsyncSnapshot snapshot) {
+                    if (snapshot.hasData) {
+                      return Text("hell");
+                    }
+                    return const LoadingCard();
+                  },
+                ),
+              ),
+              CustomTextInputField(
+                onValueChnage: (ValueKey) {},
+                hint: "amount",
+                decoration: textFormFieldDecoration,
+              ),
+              CustomButton(
+                horizontalMargin: 0,
+                verticalMargin: 0,
+                btnName: Text("Pay Bill"),
+                onPress: () {},
+              )
+            ],
           ),
         ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Colors.white,
+        onPressed: () {},
+        child: const Icon(Icons.download),
       ),
     );
   }
