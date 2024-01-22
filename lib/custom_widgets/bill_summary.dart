@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class BillSummary extends StatelessWidget {
@@ -35,9 +36,9 @@ class BillSummary extends StatelessWidget {
         children: [
           Column(
             children: [
-              const Text(
-                "Total Outstanding Amount",
-                style: TextStyle(
+              Text(
+                "total".tr() + " " + "outstanding".tr() + " " + "amount".tr(),
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.white,
                   fontWeight: FontWeight.w500,
@@ -61,9 +62,9 @@ class BillSummary extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const Text(
-                    "Pending Bills",
-                    style: TextStyle(
+                  Text(
+                    "pending".tr() + " " + "bills".tr(),
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,
@@ -81,9 +82,9 @@ class BillSummary extends StatelessWidget {
               ),
               Column(
                 children: [
-                  const Text(
-                    "Due Dates",
-                    style: TextStyle(
+                  Text(
+                    "due_date".tr(),
+                    style: const TextStyle(
                       fontSize: 16,
                       color: Colors.white,
                       fontWeight: FontWeight.w500,

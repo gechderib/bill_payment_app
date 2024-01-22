@@ -7,6 +7,7 @@ import 'package:billpayment/models/user.dart';
 import 'package:billpayment/routes/routes.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -110,7 +111,7 @@ class LoginScreen extends StatelessWidget {
                                 ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
-                                : const Text("Login", style: textStyle),
+                                : Text("login".tr(), style: textStyle),
                           ),
                           const SizedBox(
                             height: 10,

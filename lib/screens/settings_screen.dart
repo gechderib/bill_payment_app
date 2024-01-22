@@ -2,8 +2,9 @@ import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/constants/variables/const.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/routes/routes.dart';
-import 'package:billpayment/service/api_service.dart';
+import 'package:billpayment/service/theme_service.dart';
 import 'package:billpayment/service/ui_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -15,12 +16,14 @@ class SettingScreen extends StatefulWidget {
 }
 
 class _SettingScreenState extends State<SettingScreen> {
-  String language = 'English';
+  String language = "en";
   String selectedTheme = 'Light';
 
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiServiceProvider>(context);
+    final themeProvider = Provider.of<ThemeProvider>(context);
+
     return Scaffold(
       body: Column(
         children: [
@@ -77,7 +80,7 @@ class _SettingScreenState extends State<SettingScreen> {
               child: ListView(
                 children: [
                   ListTile(
-                    title: const Text('Language'),
+                    title: Text('language'.tr()),
                     subtitle: DropdownButton<String>(
                       value: language,
                       onChanged: (newValue) {
@@ -88,6 +91,11 @@ class _SettingScreenState extends State<SettingScreen> {
                       items: LANGUAGES
                           .map<DropdownMenuItem<String>>(
                             (String value) => DropdownMenuItem<String>(
+                              onTap: () {
+                                language == "en"
+                                    ? context.setLocale(const Locale("en"))
+                                    : context.setLocale(const Locale("am"));
+                              },
                               value: value,
                               child: Text(value),
                             ),
@@ -96,13 +104,13 @@ class _SettingScreenState extends State<SettingScreen> {
                     ),
                   ),
                   const SizedBox(height: 32.0),
-                  const Text(
-                    'App Settings',
+                  Text(
+                    "app".tr() + " " + "settings".tr(),
                     style:
                         TextStyle(fontSize: 20.0, fontWeight: FontWeight.bold),
                   ),
                   ListTile(
-                    title: const Text('Theme'),
+                    title: Text('theme'.tr()),
                     subtitle: DropdownButton<String>(
                       value: selectedTheme,
                       onChanged: (newValue) {
@@ -114,6 +122,7 @@ class _SettingScreenState extends State<SettingScreen> {
                           .map<DropdownMenuItem<String>>(
                             (String value) => DropdownMenuItem<String>(
                               value: value,
+                              onTap: () => {themeProvider.toggleTheme(value)},
                               child: Text(value),
                             ),
                           )
@@ -124,8 +133,8 @@ class _SettingScreenState extends State<SettingScreen> {
                   CustomButton(
                     horizontalMargin: 70,
                     verticalMargin: 0,
-                    btnName: const Text(
-                      "Logout",
+                    btnName: Text(
+                      "logout".tr(),
                       style: TextStyle(color: Colors.white),
                     ),
                     onPress: () => {

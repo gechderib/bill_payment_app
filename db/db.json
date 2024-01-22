@@ -52,7 +52,7 @@
       "name": "Water",
       "amount": 235.7,
       "dueDate": "2024-01-19 19:09:06.111043",
-      "status": "pending",
+      "status": "completed",
       "userId": "c62f"
     },
     {
@@ -157,6 +157,14 @@
       "id": "8c01",
       "name": "Tax",
       "amount": 999.9,
+      "dueDate": "2024-01-19 19:09:06.111043",
+      "status": "completed",
+      "userId": "c62f"
+    },
+    {
+      "id": "698f",
+      "name": "Water",
+      "amount": 235.7,
       "dueDate": "2024-01-19 19:09:06.111043",
       "status": "completed",
       "userId": "c62f"

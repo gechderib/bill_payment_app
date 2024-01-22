@@ -1,6 +1,8 @@
 {
     "welcome":"Welcome",
     "total":"Total",
+    "amount":"Amount",
+    "outstanding":"Outstanding",
     "due_date": "Due Date",
     "pending": "Pending Bills",
     "bills":"Bills",
@@ -10,5 +12,13 @@
     "home":"Home",
     "transactions":"Transactions",
     "settings":"Settings",
-    "account":"Account"
+    "account":"Account",
+    "login":"Login",
+    "signup":"Signup",
+    "logout":"Logout",
+    "app":"App",
+    "language":"Language",
+    "theme":"Theme",
+    "light":"Light",
+    "dark":"Dark"
 }

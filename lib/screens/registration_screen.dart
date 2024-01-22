@@ -7,6 +7,7 @@ import 'package:billpayment/models/user.dart';
 import 'package:billpayment/routes/routes.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -128,7 +129,7 @@ class RegistrationScreen extends StatelessWidget {
                                 ? const CircularProgressIndicator(
                                     color: Colors.white,
                                   )
-                                : const Text("Signup", style: textStyle);
+                                : Text("signup".tr(), style: textStyle);
                           },
                         ),
                       ),
@@ -150,8 +151,8 @@ class RegistrationScreen extends StatelessWidget {
                                 Navigator.of(context)
                                     .pushNamed(RouteGenerator.loginScreen);
                               },
-                              child: const Text(
-                                "Sign In",
+                              child: Text(
+                                "login".tr(),
                                 style: TextStyle(
                                     fontSize: 16, color: Color(0XFF6286CB)),
                               ),

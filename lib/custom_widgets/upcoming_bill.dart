@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class UpcomingBill extends StatelessWidget {
@@ -49,9 +50,10 @@ class UpcomingBill extends StatelessWidget {
               onPressed: () {
                 onClick();
               },
-              child: const Text(
-                "Pay",
-                style: TextStyle(color: Color.fromARGB(255, 116, 116, 116)),
+              child: Text(
+                "pay".tr(),
+                style:
+                    const TextStyle(color: Color.fromARGB(255, 116, 116, 116)),
               ),
             ),
           ),

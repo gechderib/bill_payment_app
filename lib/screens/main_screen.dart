@@ -9,6 +9,7 @@ import 'package:billpayment/screens/settings_screen.dart';
 import 'package:billpayment/screens/transaction_detail_screen.dart';
 import 'package:billpayment/screens/transaction_history_screen.dart';
 import 'package:billpayment/service/ui_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -34,7 +35,7 @@ class MainScreen extends StatelessWidget {
           child: _widgetOptions.elementAt(uiProvider.activeTabIndex),
         ),
         floatingActionButton: Visibility(
-          visible: true,
+          visible: MediaQuery.of(context).viewInsets.bottom == 0,
           child: Container(
             width: 72,
             height: 72,
@@ -80,12 +81,12 @@ class MainScreen extends StatelessWidget {
                 CustomBottomMenu(
                   onClick: () => {uiProvider.changeIndex(0)},
                   icon: Icons.home,
-                  menuName: "Home",
+                  menuName: "home".tr(),
                 ),
                 CustomBottomMenu(
                   onClick: () => {uiProvider.changeIndex(1)},
                   icon: Icons.swap_horizontal_circle,
-                  menuName: "Transaction",
+                  menuName: "transactions".tr(),
                 ),
                 // CustomBottomMenu(
                 //   onClick: () => {uiProvider.changeIndex(2)},
@@ -96,12 +97,12 @@ class MainScreen extends StatelessWidget {
                 CustomBottomMenu(
                   onClick: () => {uiProvider.changeIndex(3)},
                   icon: Icons.settings,
-                  menuName: "Setting",
+                  menuName: "settings".tr(),
                 ),
                 CustomBottomMenu(
                   onClick: () => {uiProvider.changeIndex(4)},
                   icon: Icons.person,
-                  menuName: "Account",
+                  menuName: "account".tr(),
                 ),
               ],
             ),

@@ -19,9 +19,21 @@ class UiServiceProvider extends ChangeNotifier {
 
   Bill? selectedBill = null;
 
+  List<dynamic> filteredTransactions = [];
+
   void setSelectedBill(Bill? bill) {
     selectedBill = bill;
     print(selectedBill?.name);
+    notifyListeners();
+  }
+
+  void filterTransactions(String query, List<dynamic> transactions) {
+    print("query");
+    filteredTransactions = transactions.where((transaction) {
+      return transaction["name"].toLowerCase().contains(query.toLowerCase()) ||
+          transaction["status"].toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
     notifyListeners();
   }
 

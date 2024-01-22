@@ -13,6 +13,7 @@ import 'package:billpayment/models/transaction.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/input_value_controller.dart';
 import 'package:billpayment/service/ui_service.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -55,8 +56,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  "Welcome ${authInfo.logedUserInfo["fullName"]}"
-                      .substring(0, 15),
+                  "welcome ${authInfo.logedUserInfo["fullName"]}",
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 20,
@@ -116,11 +116,11 @@ class HomeScreen extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(left: 10),
-            child: const Align(
+            child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Pending Bills",
-                style: TextStyle(
+                "pending".tr() + " " + "bills".tr(),
+                style: const TextStyle(
                   fontSize: 16,
                   color: Color.fromARGB(221, 34, 34, 34),
                 ),
@@ -169,11 +169,11 @@ class HomeScreen extends StatelessWidget {
           ),
           Container(
             margin: const EdgeInsets.only(left: 10, top: 5),
-            child: const Align(
+            child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "Payment History",
-                style: TextStyle(
+                "payment".tr() + " " + "history".tr(),
+                style: const TextStyle(
                   fontSize: 16,
                   color: Color.fromARGB(221, 34, 34, 34),
                 ),

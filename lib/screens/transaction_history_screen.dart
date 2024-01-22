@@ -1,20 +1,27 @@
+import 'dart:io';
+
 import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/custom_widgets/loading_shimmer.dart';
 import 'package:billpayment/custom_widgets/payment_history_cards.dart';
+import 'package:billpayment/models/transaction.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
+import 'package:csv/csv.dart';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
-import 'package:shimmer/shimmer.dart';
 
 class TransactionHistoryScreen extends StatelessWidget {
-  const TransactionHistoryScreen({super.key});
-
+  TransactionHistoryScreen({super.key});
+  List<dynamic> transactions = [];
   @override
   Widget build(BuildContext context) {
     final uiProvider = Provider.of<UiServiceProvider>(context);
     final authInfo = Provider.of<AuthInfo>(context);
     final transactionProvider = Provider.of<TransactionProvider>(context);
+
+    TextEditingController searchController = TextEditingController();
+
     return Scaffold(
       body: Column(
         children: [
@@ -80,9 +87,13 @@ class TransactionHistoryScreen extends StatelessWidget {
                 ),
               ],
             ),
-            child: const TextField(
-              style: TextStyle(fontSize: 16.0),
-              decoration: InputDecoration(
+            child: TextFormField(
+              controller: searchController,
+              onChanged: (value) {
+                uiProvider.filterTransactions(value, transactions);
+              },
+              style: const TextStyle(fontSize: 16.0),
+              decoration: const InputDecoration(
                 contentPadding:
                     EdgeInsets.symmetric(horizontal: 20.0, vertical: 15.0),
                 hintText: 'Search...',
@@ -98,6 +109,11 @@ class TransactionHistoryScreen extends StatelessWidget {
                   .getAllTransactions(authInfo.logedUserInfo["id"]),
               builder: (context, AsyncSnapshot snapshot) {
                 if (snapshot.hasData) {
+                  if (searchController.text.isNotEmpty) {
+                    transactions = uiProvider.filteredTransactions;
+                  } else {
+                    transactions = snapshot.data;
+                  }
                   return ListView.builder(
                     itemCount: snapshot.data.length,
                     itemBuilder: (context, index) {
@@ -117,30 +133,56 @@ class TransactionHistoryScreen extends StatelessWidget {
                     },
                   );
                 }
-                return LoadingShimmer();
+                return const LoadingShimmer();
               },
             ),
           ),
         ],
       ),
-      floatingActionButton: FloatingActionButton(
-        backgroundColor: Colors.white,
-        onPressed: () {
-          _downloadStatements();
-        },
-        child: const Icon(Icons.download),
+      floatingActionButton: Visibility(
+        visible: MediaQuery.of(context).viewInsets.bottom == 0,
+        child: FloatingActionButton(
+          backgroundColor: Colors.white,
+          onPressed: () {
+            _downloadStatements(context, transactions);
+          },
+          child: const Icon(Icons.download),
+        ),
       ),
     );
   }
 }
 
 void _showFilterOptions() {
-  // Implement filter options UI or navigation here
-  // You can use showModalBottomSheet or a new screen for filter options
   print('Show filter options');
 }
 
-void _downloadStatements() {
-  // Implement download statements action
-  print('Download statements');
+void _downloadStatements(
+    BuildContext context, List<dynamic> transactions) async {
+  List<List<dynamic>> csvData = [
+    ['Name', 'Amount', 'Due Date', 'Status', 'User ID']
+  ];
+
+  for (dynamic transaction in transactions) {
+    csvData.add([
+      transaction["name"],
+      transaction["amount"],
+      transaction["dueDate"],
+      transaction["status"],
+      transaction["userId"],
+    ]);
+  }
+
+  String csvString = const ListToCsvConverter().convert(csvData);
+
+  final Directory directory = await getExternalStorageDirectory() as Directory;
+  final File file = File('${directory.path}/${DateTime.now().toString()}.csv');
+  print(file);
+  await file.writeAsString(csvString);
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('CSV file downloaded successfully!'),
+    ),
+  );
 }

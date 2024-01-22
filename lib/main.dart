@@ -2,6 +2,7 @@ import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/routes/routes.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/input_value_controller.dart';
+import 'package:billpayment/service/theme_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -26,6 +27,7 @@ void main() async {
           ChangeNotifierProvider(create: (context) => TransactionProvider()),
           ChangeNotifierProvider(
               create: (context) => InputFieldControllerProvider()),
+          ChangeNotifierProvider(create: (context) => ThemeProvider())
         ],
         child: const BillPaymentApp(),
       ),
@@ -43,13 +45,20 @@ class BillPaymentApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       initialRoute: RouteGenerator.splashScreen,
       onGenerateRoute: RouteGenerator.generateRoute,
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        brightness: Brightness.light,
+      ),
+      darkTheme: ThemeData(
+        primarySwatch: Colors.grey,
+        brightness: Brightness.dark,
+      ),
+      themeMode: context.watch<ThemeProvider>().theme == "Dark"
+          ? ThemeMode.dark
+          : ThemeMode.light,
     );
   }
 }

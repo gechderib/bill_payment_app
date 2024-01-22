@@ -1,6 +1,8 @@
 {
     "welcome":"እንኳን ደህና መጣህ",
     "total":"ጠቅላላ",
+    "amount":"መጠን",
+    "outstanding":"ያልተከፈለ",
     "due_date": "የመጨረሻ ማስረከቢያ ቀን",
     "pending": "በመጠባበቅ ላይ",
     "bills":"ሂሳቦች",
@@ -10,5 +12,14 @@
     "home":"ቤት",
     "transactions":"ግብይቶች",
     "settings":"ቅንብሮች",
-    "account":"Settings"
+    "account":"መለያ",
+    "login":"ግባ",
+    "signup":"ተመዝገቢ",
+    "logout":"ውጣ",
+    "app":"መተግበሪያ",
+    "language":"ቋንቋ",
+    "theme":"ጭብጥ",
+    "light":"ብርሃን",
+    "dark":"ጨለማ"
+
 }
