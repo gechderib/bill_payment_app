@@ -5,13 +5,14 @@ import 'package:billpayment/service/input_value_controller.dart';
 import 'package:billpayment/service/theme_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
-
+  await Firebase.initializeApp();
   runApp(
     EasyLocalization(
       supportedLocales: const [Locale("en"), Locale("am")],

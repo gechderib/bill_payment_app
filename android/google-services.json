@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "953460582169",
+    "project_id": "mini-bill-app",
+    "storage_bucket": "mini-bill-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:953460582169:android:e4aca213d00e9524380788",
+        "android_client_info": {
+          "package_name": "com.example.billpayment"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDo__q8lSVqMh69pIIay13Tl1guZS2uW6M"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

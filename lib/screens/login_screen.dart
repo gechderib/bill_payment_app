@@ -1,4 +1,5 @@
 import 'package:billpayment/authentication/auth_info.dart';
+import 'package:billpayment/authentication/auth_service.dart';
 import 'package:billpayment/constants/styles/decoration.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/custom_widgets/custom_label.dart';
@@ -20,6 +21,7 @@ class LoginScreen extends StatelessWidget {
     final authInfo = Provider.of<AuthInfo>(context);
     final authProvider = Provider.of<AuthProvider>(context);
     final uiProvider = Provider.of<UiServiceProvider>(context);
+    final firebaseAuthProvider = Provider.of<FirebaseAuthProvider>(context);
 
     var loginUserInfo = {
       "phone": authInfo.phone,
@@ -29,6 +31,8 @@ class LoginScreen extends StatelessWidget {
     void handelLogin() async {
       try {
         uiProvider.changeIsLoging(true);
+        var phoneNumAuth =
+            await firebaseAuthProvider.verifyPhoneNumber(authInfo.phone);
         var user = await authProvider.loginUser(
           LoginModel.fromJson(loginUserInfo),
         );
