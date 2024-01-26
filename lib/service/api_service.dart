@@ -57,12 +57,8 @@ class AuthProvider extends ChangeNotifier {
           Uri.parse(
               "$BASE_URL/users?phone=${loginInfo.phone}&password=${loginInfo.password}"),
           headers: header);
-      print(loginInfo.phone);
-      print(loginInfo.password);
       if (response.statusCode == 200) {
         final List<dynamic> users = json.decode(response.body);
-        print(users);
-        print("------------------------");
         if (users.isNotEmpty) {
           await uiProvider.showToast(
               "Login successful", Colors.green, Colors.white);
@@ -77,6 +73,46 @@ class AuthProvider extends ChangeNotifier {
       }
     } catch (e) {
       handleAuthError(e);
+    }
+  }
+
+  Future forgotPasswordUpdate(String phone, String newPassword) async {
+    var header = <String, String>{
+      'content-type': 'application/json',
+      // 'X-ACCESS-TOKEN': 'SMAPL',
+    };
+    try {
+      final response =
+          await http.get(Uri.parse("$BASE_URL/users?phone=$phone"));
+      if (response.statusCode == 200) {
+        final List<dynamic> users = json.decode(response.body);
+        if (users.isNotEmpty) {
+          UserModel user = UserModel.fromJson(users[0]);
+          final passUpdate = await http.patch(
+            Uri.parse("$BASE_URL/users/${user.id}"),
+            headers: header,
+            body: jsonEncode(
+              <String, dynamic>{"password": newPassword},
+            ),
+          );
+          if (passUpdate.statusCode == 200) {
+            await uiProvider.showToast("Password successfully updated",
+                Colors.greenAccent, Colors.white);
+          } else {
+            uiProvider.changeIsLoging(false);
+            await uiProvider.showToast(
+                "password not updated. try again", Colors.red, Colors.white);
+          }
+        } else {
+          uiProvider.changeIsLoging(false);
+          await uiProvider.showToast(
+              "User not found", Colors.red, Colors.white);
+          throw Exception('User not found');
+        }
+      }
+    } catch (e) {
+      handleAuthError(e);
+      throw Exception("user not found");
     }
   }
 
@@ -123,7 +159,7 @@ class AuthProvider extends ChangeNotifier {
       await uiProvider.showToast(
           "Please check your data", Colors.red, Colors.white);
     }
-    print(e);
+    uiProvider.changeIsLoging(false);
     throw Exception('Failed to auth user');
   }
 }
@@ -149,14 +185,11 @@ class BillProvider extends ChangeNotifier {
             .toList();
         return userBills;
       } else if (response.statusCode == 400) {
-        // Handle error response if needed
         throw Exception("Failed to fetch bills: ${json.decode(response.body)}");
       }
     } catch (e) {
       throw Exception("Failed to get bills: $e");
     }
-
-    // Return an empty list if no bills or an error occurred
     return [];
   }
 

@@ -30,15 +30,23 @@ class RegistrationScreen extends StatelessWidget {
 
     void handelRegister() async {
       try {
-        uiProvider.changeIsLoging(true);
-        final user = await authProvider.createUser(
-          UserModel.fromJson(registrationInfo),
-        );
+        if (authInfo.fullName != "" ||
+            authInfo.email != "" ||
+            authInfo.password != "" ||
+            authInfo.phone != "") {
+          uiProvider.changeIsLoging(true);
+          final user = await authProvider.createUser(
+            UserModel.fromJson(registrationInfo),
+          );
 
-        if (user != null) {
-          Navigator.of(context).pushNamed(RouteGenerator.loginScreen);
+          if (user != null) {
+            Navigator.of(context).pushNamed(RouteGenerator.loginScreen);
+          } else {
+            print('User creation failed.');
+          }
         } else {
-          print('User creation failed.');
+          await uiProvider.showToast(
+              "Please enter a valid data", Colors.red, Colors.white);
         }
       } catch (error) {
         print('Error during user creation: $error');

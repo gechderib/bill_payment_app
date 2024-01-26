@@ -39,17 +39,29 @@ class VerificationScreen extends StatelessWidget {
                 CustomButton(
                   horizontalMargin: 0,
                   verticalMargin: 0,
-                  btnName: const Text(
-                    "Verify",
-                    style: TextStyle(color: Colors.white),
-                  ),
+                  btnName: uiProvider.isLoging
+                      ? const CircularProgressIndicator(
+                          color: Colors.white,
+                        )
+                      : const Text(
+                          "Verify",
+                          style: TextStyle(color: Colors.white),
+                        ),
                   onPress: () async {
                     try {
+                      uiProvider.changeIsLoging(true);
                       await firebaseProvider.verifySms();
                       await authInfo.addloginUserInfo(authInfo.user);
                       await authInfo.getLoginUser();
-                      Navigator.of(context)
-                          .pushNamed(RouteGenerator.homeScreen);
+                      if (firebaseProvider.isForgotPass) {
+                        uiProvider.changeIsLoging(false);
+                        Navigator.of(context)
+                            .pushNamed(RouteGenerator.newPasswordScreen);
+                      } else {
+                        uiProvider.changeIsLoging(false);
+                        Navigator.of(context)
+                            .pushNamed(RouteGenerator.homeScreen);
+                      }
                     } catch (e) {
                       await uiProvider.showToast("Verification not completed",
                           Colors.redAccent, Colors.white);

@@ -1,7 +1,7 @@
-import 'package:billpayment/screens/bill_detail_screen.dart';
 import 'package:billpayment/screens/forgot_password_screen.dart';
 import 'package:billpayment/screens/login_screen.dart';
 import 'package:billpayment/screens/main_screen.dart';
+import 'package:billpayment/screens/new_password_screen.dart';
 import 'package:billpayment/screens/registration_screen.dart';
 import 'package:billpayment/screens/splash_screen.dart';
 import 'package:billpayment/screens/verification_screen.dart';
@@ -14,6 +14,7 @@ class RouteGenerator {
   static const String homeScreen = "/home";
   static const String verify = "/verify";
   static const String forgotPassword = "/forgot_password";
+  static const String newPasswordScreen = "/new_password";
 
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -29,6 +30,8 @@ class RouteGenerator {
         return MaterialPageRoute(builder: (_) => MainScreen());
       case verify:
         return MaterialPageRoute(builder: (_) => VerificationScreen());
+      case newPasswordScreen:
+        return MaterialPageRoute(builder: (_) => NewPasswordScreen());
 
       default:
         return MaterialPageRoute(

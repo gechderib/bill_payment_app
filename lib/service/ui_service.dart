@@ -1,8 +1,10 @@
+import 'package:billpayment/authentication/auth_info.dart';
 import 'package:billpayment/models/bill.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class UiServiceProvider extends ChangeNotifier {
+  AuthInfo authInfo = AuthInfo();
   bool _isLoading = true;
   bool get isLoading => _isLoading;
 
@@ -19,16 +21,16 @@ class UiServiceProvider extends ChangeNotifier {
 
   Bill? selectedBill = null;
 
+  String forgotPasswordPhone = "251953890542";
+
   List<dynamic> filteredTransactions = [];
 
   void setSelectedBill(Bill? bill) {
     selectedBill = bill;
-    print(selectedBill?.name);
     notifyListeners();
   }
 
   void filterTransactions(String query, List<dynamic> transactions) {
-    print("query");
     filteredTransactions = transactions.where((transaction) {
       return transaction["name"].toLowerCase().contains(query.toLowerCase()) ||
           transaction["status"].toLowerCase().contains(query.toLowerCase());

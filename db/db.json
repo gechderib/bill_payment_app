@@ -5,7 +5,7 @@
       "fullName": "Getachew Derib",
       "email": "gech@gmail.xom",
       "phone": "251953890542",
-      "password": "111"
+      "password": "4444"
     },
     {
       "id": "4e7c",
@@ -27,6 +27,13 @@
       "email": "",
       "phone": "111",
       "password": "111"
+    },
+    {
+      "id": "c89a",
+      "fullName": "solomon kassahun",
+      "email": "solom@gmail.com",
+      "phone": "251986557047",
+      "password": "111111"
     }
   ],
   "login": [],

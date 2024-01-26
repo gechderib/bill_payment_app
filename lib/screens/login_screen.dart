@@ -6,6 +6,9 @@ import 'package:billpayment/custom_widgets/custom_label.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
 import 'package:billpayment/models/user.dart';
 import 'package:billpayment/routes/routes.dart';
+import 'package:billpayment/screens/home_screen.dart';
+import 'package:billpayment/screens/main_screen.dart';
+import 'package:billpayment/screens/verification_screen.dart';
 import 'package:billpayment/service/api_service.dart';
 import 'package:billpayment/service/ui_service.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -36,10 +39,17 @@ class LoginScreen extends StatelessWidget {
         );
         if (user != null) {
           authInfo.user = user;
+          firebaseAuthProvider.isForgotPass = false;
           var phoneNumAuth =
               await firebaseAuthProvider.verifyPhoneNumber(authInfo.phone);
           uiProvider.changeIndex(0);
-          Navigator.of(context).pushNamed(RouteGenerator.verify);
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MainScreen(),
+            ),
+          );
+          // VerificationScreen
         } else {
           print('User login failed.');
         }

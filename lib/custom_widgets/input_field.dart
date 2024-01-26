@@ -3,19 +3,22 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class CustomTextInputField extends StatelessWidget {
-  const CustomTextInputField(
-      {super.key,
-      required this.onValueChnage,
-      required this.hint,
-      this.textInputType,
-      this.onValidate,
-      required this.decoration});
+  const CustomTextInputField({
+    super.key,
+    required this.onValueChnage,
+    required this.hint,
+    this.textInputType,
+    this.onValidate,
+    required this.decoration,
+    this.controller,
+  });
 
   final String hint;
   final Function(String) onValueChnage;
   final Function(String)? onValidate;
   final TextInputType? textInputType;
   final InputDecoration decoration;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -23,6 +26,7 @@ class CustomTextInputField extends StatelessWidget {
       onChanged: (value) {
         onValueChnage(value);
       },
+      controller: controller,
       cursorColor: Colors.grey,
       keyboardType: textInputType,
       decoration: decoration.copyWith(hintText: hint),
@@ -31,15 +35,17 @@ class CustomTextInputField extends StatelessWidget {
 }
 
 class CustomPasswordInputField extends StatelessWidget {
-  const CustomPasswordInputField(
-      {Key? key,
-      required this.onValueChnage,
-      required this.hint,
-      required this.decoration})
-      : super(key: key);
+  const CustomPasswordInputField({
+    Key? key,
+    required this.onValueChnage,
+    required this.hint,
+    required this.decoration,
+    this.controller,
+  }) : super(key: key);
   final String hint;
   final Function(String) onValueChnage;
   final InputDecoration decoration;
+  final TextEditingController? controller;
 
   @override
   Widget build(BuildContext context) {
@@ -49,6 +55,7 @@ class CustomPasswordInputField extends StatelessWidget {
           onChanged: (value) {
             onValueChnage(value);
           },
+          controller: controller,
           cursorColor: Colors.grey,
           obscureText: uiProvider.isObsecure,
           decoration: decoration.copyWith(

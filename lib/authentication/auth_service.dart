@@ -5,25 +5,31 @@ import 'package:flutter/material.dart';
 class FirebaseAuthProvider extends ChangeNotifier {
   String verification_id = "";
   String smsCode = "";
+  bool isVerificationSuccessfull = false;
+  bool isForgotPass = true;
   final uiProvider = UiServiceProvider();
   Future<void> verifyPhoneNumber(String phoneNumber) async {
     final PhoneVerificationCompleted verificationCompleted =
         (PhoneAuthCredential credential) async {
       await uiProvider.showToast("Verification successfully completed",
           Colors.greenAccent, Colors.white);
+      return;
     };
 
     final PhoneVerificationFailed verificationFailed =
         (FirebaseAuthException e) async {
       await uiProvider.showToast(
           "${e.message}", Colors.redAccent, Colors.white);
+      return;
     };
 
     final PhoneCodeSent codeSent =
         (String verificationId, int? resendToken) async {
       verification_id = verificationId;
+
       await uiProvider.showToast("Verification send please check you sms",
           Colors.greenAccent, Colors.white);
+      notifyListeners();
     };
 
     final PhoneCodeAutoRetrievalTimeout codeAutoRetrievalTimeout =
@@ -33,7 +39,7 @@ class FirebaseAuthProvider extends ChangeNotifier {
     };
 
     await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: "+" + phoneNumber,
+      phoneNumber: "+$phoneNumber",
       verificationCompleted: verificationCompleted,
       verificationFailed: verificationFailed,
       codeSent: codeSent,
@@ -49,10 +55,21 @@ class FirebaseAuthProvider extends ChangeNotifier {
         smsCode: smsCode,
       );
 
-      await FirebaseAuth.instance.signInWithCredential(credential);
-      await uiProvider.showToast(
-          "Phone successfully verified", Colors.greenAccent, Colors.white);
+      UserCredential authResult =
+          await FirebaseAuth.instance.signInWithCredential(credential);
+      User? user = authResult.user;
+
+      if (user != null) {
+        isVerificationSuccessfull = true;
+        await uiProvider.showToast(
+            "Phone successfully verified", Colors.greenAccent, Colors.white);
+      } else {
+        isVerificationSuccessfull = false;
+        await uiProvider.showToast(
+            "phone number not verified", Colors.redAccent, Colors.white);
+      }
     } catch (e) {
+      isVerificationSuccessfull = false;
       await uiProvider.showToast(
           "phone number not verified", Colors.redAccent, Colors.white);
     }

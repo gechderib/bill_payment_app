@@ -14,10 +14,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  String fullName = 'Getachew Derib';
-  String email = 'gechderib1221@gmail.com';
-  String language = 'English';
-
   TextEditingController newPasswordController = TextEditingController();
   TextEditingController currentPasswordController = TextEditingController();
   @override

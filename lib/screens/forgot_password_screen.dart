@@ -1,8 +1,12 @@
+import 'package:billpayment/authentication/auth_service.dart';
 import 'package:billpayment/constants/styles/decoration.dart';
 import 'package:billpayment/custom_widgets/custom_button.dart';
 import 'package:billpayment/custom_widgets/input_field.dart';
+import 'package:billpayment/screens/verification_screen.dart';
+import 'package:billpayment/service/ui_service.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:provider/provider.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
@@ -15,6 +19,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   TextEditingController phoneNumberController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final firebaseAuthProvider =
+        Provider.of<FirebaseAuthProvider>(context, listen: false);
+    final uiProvider = Provider.of<UiServiceProvider>(context, listen: false);
+
     return Scaffold(
       body: Container(
         decoration: appBackgroundDecoration,
@@ -35,6 +43,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 margin: const EdgeInsets.symmetric(horizontal: 10),
                 child: CustomTextInputField(
                   onValueChnage: (value) {},
+                  controller: phoneNumberController,
                   hint: "Phone number",
                   decoration: InputDecoration(
                     contentPadding: const EdgeInsets.only(
@@ -79,12 +88,25 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
               CustomButton(
                 horizontalMargin: 0,
                 verticalMargin: 0,
-                btnName: const Text(
-                  "Reset Password",
-                  style: TextStyle(color: Colors.white),
-                ),
-                onPress: () {
-                  _sendPasswordResetEmail();
+                btnName: uiProvider.isLoging
+                    ? const CircularProgressIndicator()
+                    : const Text(
+                        "Reset Password",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                onPress: () async {
+                  uiProvider.changeIsLoging(true);
+                  uiProvider.forgotPasswordPhone = phoneNumberController.text;
+                  firebaseAuthProvider.isForgotPass = true;
+                  await firebaseAuthProvider
+                      .verifyPhoneNumber(phoneNumberController.text);
+                  uiProvider.changeIsLoging(false);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const VerificationScreen(),
+                    ),
+                  );
                 },
               ),
             ],
@@ -92,11 +114,5 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
         ),
       ),
     );
-  }
-
-  void _sendPasswordResetEmail() {
-    String phone = phoneNumberController.text;
-
-    print('Password reset phone sent to: $phone');
   }
 }
